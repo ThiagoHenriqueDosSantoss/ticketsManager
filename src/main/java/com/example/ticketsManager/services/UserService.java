@@ -42,6 +42,9 @@ public class UserService {
             if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
                 throw new BadRequestException("O cpf informado é inválido!");
             }
+            if (userRepository.validaCpf(dto.getCpf())){
+                throw new BadRequestException("O cpf informado já existe!");
+            }
             users.setCpf(dto.getCpf());
 
             if (dto.getSituacaoUsuario() == null) {
