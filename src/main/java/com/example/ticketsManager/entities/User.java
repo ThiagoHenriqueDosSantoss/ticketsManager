@@ -2,7 +2,6 @@ package com.example.ticketsManager.entities;
 
 import com.example.ticketsManager.enums.UserSituation;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,10 +12,9 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user", updatable = false, nullable = false)
-    private UUID idUser;
+    private Long idUser;
 
     @Column(nullable = false)
     private String nome;
@@ -35,20 +33,12 @@ public class User {
 
     }
 
-    public User(UUID idUser, String nome, String cpf, UserSituation situacaoUsuario, LocalDateTime dataCriacao, LocalDateTime dataAlteracao) {
-        this.idUser = idUser;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.situacaoUsuario = situacaoUsuario;
-        this.dataCriacao = dataCriacao;
-        this.dataAlteracao = dataAlteracao;
-    }
 
-    public UUID getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(UUID idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

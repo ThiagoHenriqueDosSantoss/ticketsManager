@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
     @PatchMapping(value = "/{idUser}")
-    public ResponseEntity<User> createUser(@PathVariable UUID idUser, @RequestBody UpdateUserDTO dto){
+    public ResponseEntity<User> createUser(@PathVariable Long idUser, @RequestBody UpdateUserDTO dto){
         try{
             User response = userService.updateUser(idUser,dto);
             return ResponseEntity.ok(response);

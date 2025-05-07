@@ -66,7 +66,7 @@ public class UserService {
             throw new RuntimeException(e);
         }
     }
-    public User updateUser(UUID idUser, UpdateUserDTO dto){
+    public User updateUser(Long idUser, UpdateUserDTO dto){
         try {
             Optional<User> userOptional = userRepository.findById(idUser);
 
@@ -77,23 +77,26 @@ public class UserService {
 
             User users = userOptional.get();
 
+            if (dto.getNome() != null || !dto.getNome().isBlank()) {
+                if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
+                    throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
+                }
+                if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                    throw new BadRequestException("O nome não pode conter caracteres especiais ou números!");
+                }
+                users.setNome(dto.getNome());
+            }
 
-            if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
-                throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
-            }
-            if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
-                throw new BadRequestException("O nome não pode conter caracteres especiais ou números!");
-            }
-            users.setNome(dto.getNome());
 
-
-            if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
-                throw new BadRequestException("O cpf informado é inválido!");
+            if (dto.getCpf() != null && !dto.getCpf().isBlank()) {
+                if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                    throw new BadRequestException("O cpf informado é inválido!");
+                }
+                if (userRepository.validaCpf(dto.getCpf())) {
+                    throw new BadRequestException("O cpf informado já existe!");
+                }
+                users.setCpf(dto.getCpf());
             }
-            if (userRepository.validaCpf(dto.getCpf())){
-                throw new BadRequestException("O cpf informado já existe!");
-            }
-            users.setCpf(dto.getCpf());
 
             if (dto.getSituacaoUsuario() == null) {
                 throw new BadRequestException("A situação do usuário é obrigatória!");
@@ -106,7 +109,7 @@ public class UserService {
 
             return userRepository.save(users);
         } catch (Exception e) {
-            logger.severe("ERROR: Falha ao criar usuario no services!");
+            logger.severe("ERROR: Falha ao atualizar usuario no services!");
             throw new RuntimeException(e);
         }
     }
