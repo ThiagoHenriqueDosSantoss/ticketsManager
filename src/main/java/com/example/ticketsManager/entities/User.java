@@ -2,17 +2,20 @@ package com.example.ticketsManager.entities;
 
 import com.example.ticketsManager.enums.UserSituation;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_users")
+@Table(name = "tb_user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id_user", updatable = false, nullable = false)
     private UUID idUser;
 
     @Column(nullable = false)
@@ -24,10 +27,8 @@ public class User {
     @Column(nullable = false)
     private UserSituation situacaoUsuario;
 
-    @Column(nullable = false)
     private LocalDateTime dataCriacao;
 
-    @Column(nullable = false)
     private LocalDateTime dataAlteracao;
 
     public User(){
