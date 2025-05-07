@@ -1,6 +1,7 @@
 package com.example.ticketsManager.services;
 
 import com.example.ticketsManager.dto.CreateUserDTO;
+import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
 import com.example.ticketsManager.enums.UserSituation;
 import com.example.ticketsManager.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -57,6 +59,50 @@ public class UserService {
 
             LocalDateTime now = LocalDateTime.now();
             users.setDataCriacao(now);
+
+            return userRepository.save(users);
+        } catch (Exception e) {
+            logger.severe("ERROR: Falha ao criar usuario no services!");
+            throw new RuntimeException(e);
+        }
+    }
+    public User updateUser(UUID idUser, UpdateUserDTO dto){
+        try {
+            Optional<User> userOptional = userRepository.findById(idUser);
+
+
+            if (userOptional.isEmpty()){
+                throw new BadRequestException("O id informado não foi encontrado!");
+            }
+
+            User users = userOptional.get();
+
+
+            if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
+                throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
+            }
+            if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                throw new BadRequestException("O nome não pode conter caracteres especiais ou números!");
+            }
+            users.setNome(dto.getNome());
+
+
+            if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                throw new BadRequestException("O cpf informado é inválido!");
+            }
+            if (userRepository.validaCpf(dto.getCpf())){
+                throw new BadRequestException("O cpf informado já existe!");
+            }
+            users.setCpf(dto.getCpf());
+
+            if (dto.getSituacaoUsuario() == null) {
+                throw new BadRequestException("A situação do usuário é obrigatória!");
+            }
+
+            users.setSituacaoUsuario(dto.getSituacaoUsuario());
+
+            LocalDateTime now = LocalDateTime.now();
+            users.setDataAlteracao(now);
 
             return userRepository.save(users);
         } catch (Exception e) {
