@@ -2,6 +2,8 @@ package com.example.ticketsManager.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tb_ticket")
 public class Ticket {
@@ -16,6 +18,8 @@ public class Ticket {
     private User idUser;
 
     private Long quantidade;
+
+    private LocalDateTime dataEntrega;
 
     public Ticket(){
 
@@ -43,5 +47,13 @@ public class Ticket {
 
     public void setQuantidade(Long quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public LocalDateTime getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(LocalDateTime dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
 }

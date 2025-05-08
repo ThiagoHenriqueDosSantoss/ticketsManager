@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 @Service
@@ -37,6 +38,9 @@ public class TicketService {
                 throw new BadRequestException("Informe uma quantidade válida de tickets!");
             }
             ticket.setQuantidade(dto.getQuantidade());
+
+            LocalDateTime now = LocalDateTime.now();
+            ticket.setDataEntrega(now);
 
             return ticketRepository.save(ticket);
         } catch (Exception e) {

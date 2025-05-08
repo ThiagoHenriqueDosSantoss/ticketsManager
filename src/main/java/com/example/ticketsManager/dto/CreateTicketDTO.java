@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+
 public class CreateTicketDTO {
 
     @NotBlank
@@ -12,6 +14,8 @@ public class CreateTicketDTO {
 
     @NotBlank
     private Long quantidade;
+
+    private LocalDateTime dataEntrega;
 
     public Long getIdUser() {
         return idUser;
@@ -27,5 +31,13 @@ public class CreateTicketDTO {
 
     public void setQuantidade(Long quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public LocalDateTime getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(LocalDateTime dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
 }
