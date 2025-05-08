@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS tb_user (
+  idUser SERIAL PRIMARY KEY,
+  nome VARCHAR(30) NOT NULL,
+  cpf VARCHAR(14) UNIQUE NOT NULL,
+  situacaoUsuario CHAR(1) NOT NULL,
+  dataCriacao TIMESTAMP DEFAULT NOW(),
+  dataAtualizacao TIMESTAMP DEFAULT NOW()
+);

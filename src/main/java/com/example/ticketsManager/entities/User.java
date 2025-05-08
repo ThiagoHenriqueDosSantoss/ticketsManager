@@ -14,20 +14,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user", updatable = false, nullable = false)
+    @Column(name = "iduser", updatable = false, nullable = false)
     private Long idUser;
 
-    @Column(nullable = false)
+    @Column(name = "nome",nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "cpf",nullable = false, unique = true)
     private String cpf;
 
-    @Column(nullable = false)
+    @Column(name = "situacaousuario",nullable = false)
     private UserSituation situacaoUsuario;
 
+    @Column(name = "datacriacao")
     private LocalDateTime dataCriacao;
 
+    @Column(name = "dataatualizacao")
     private LocalDateTime dataAlteracao;
 
     @OneToMany(mappedBy = "idUser")
