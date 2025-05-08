@@ -23,6 +23,8 @@ public class Ticket {
     @Column(name = "dataentregaticket")
     private LocalDateTime dataEntregaTicket;
 
+    private LocalDateTime atualizaoEntregaTicket;
+
     public Ticket(){
 
     }
@@ -57,5 +59,13 @@ public class Ticket {
 
     public void setDataEntregaTicket(LocalDateTime dataEntrega) {
         this.dataEntregaTicket = dataEntrega;
+    }
+
+    public LocalDateTime getAtualizaoEntregaTicket() {
+        return atualizaoEntregaTicket;
+    }
+
+    public void setAtualizaoEntregaTicket(LocalDateTime atualizaoEntregaTicket) {
+        this.atualizaoEntregaTicket = atualizaoEntregaTicket;
     }
 }

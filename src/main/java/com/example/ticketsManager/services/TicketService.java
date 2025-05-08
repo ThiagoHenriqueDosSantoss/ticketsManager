@@ -2,6 +2,7 @@ package com.example.ticketsManager.services;
 
 
 import com.example.ticketsManager.dto.CreateTicketDTO;
+import com.example.ticketsManager.dto.UpdateTicketDTO;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
 import com.example.ticketsManager.repository.TicketRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -34,6 +36,7 @@ public class TicketService {
             User user = userRepository.findById(dto.getIdUser())
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
             ticket.setUser(user);
+
             if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
                 throw new BadRequestException("Informe uma quantidade válida de tickets!");
             }
@@ -42,6 +45,39 @@ public class TicketService {
             LocalDateTime now = LocalDateTime.now();
             ticket.setDataEntregaTicket(now);
 
+            if (!"A".equals(user.getSituacaoUsuario())) {
+                throw new RuntimeException("Não é possível criar um ticket para um usuário inativo.");
+            }
+            return ticketRepository.save(ticket);
+        } catch (Exception e) {
+            logger.severe("ERROR: Falha ao criar um ticket no services!" + e.getMessage());
+        }
+        return null;
+    }
+    @Transactional
+    public Ticket uptadeTicket(Long idUser,UpdateTicketDTO dto){
+        try {
+            User user = userRepository.findById(idUser).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+            Optional<Ticket> optionalTicket = ticketRepository.findById(idUser);
+
+
+            if (optionalTicket.isEmpty()){
+                throw new BadRequestException("O id informado não foi encontrado!");
+            }
+            Ticket ticket = optionalTicket.get();
+
+            if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
+                throw new BadRequestException("Informe uma quantidade válida de tickets!");
+            }
+            ticket.setQuantidade(dto.getQuantidade());
+
+            LocalDateTime now = LocalDateTime.now();
+            ticket.setAtualizaoEntregaTicket(now);
+
+            if (!"A".equals(user.getSituacaoUsuario())) {
+                throw new RuntimeException("Não é possível criar um ticket para um usuário inativo.");
+            }
             return ticketRepository.save(ticket);
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao criar um ticket no services! " + e.getMessage());
