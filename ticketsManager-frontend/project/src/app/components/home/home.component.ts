@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="content">
       <div class="home-container">
-        <h1>Bem-vindo ao Tickets Manager</h1>
+        <h1>Bem-vindo ao Tickets</h1>
         <p>Utilize o menu lateral para navegar entre as funcionalidades:</p>
         <ul>
           <li>Criar e gerenciar usuários</li>
