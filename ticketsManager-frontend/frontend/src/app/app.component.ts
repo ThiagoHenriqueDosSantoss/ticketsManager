@@ -5,21 +5,21 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [UserComponent],  // Importando UserComponent diretamente
+  imports: [UserComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'Ticket Manager';
 
-  // Controla a visibilidade do modal
+
   showModal = false;
 
   openModal() {
-    this.showModal = true;  // Exibe o modal
+    this.showModal = true;
   }
 
   fecharModalUsuario() {
-    this.showModal = false;  // Fecha o modal
+    this.showModal = false;
   }
 }

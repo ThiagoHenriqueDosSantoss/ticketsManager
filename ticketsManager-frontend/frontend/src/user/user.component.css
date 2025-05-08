@@ -1,11 +1,11 @@
-/* Estilos para o modal */
+
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    display: none; /* Modal começa escondido */
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1050;
@@ -20,11 +20,11 @@
     visibility: visible;
   }
   
-  /* Fundo do modal */
+  
   .modal-dialog {
     width: 100%;
-    max-width: 700px; /* Largura ajustada */
-    height: 70vh; /* Ajustando a altura do modal */
+    max-width: 700px;
+    height: 70vh;
     margin: auto;
     padding: 2rem;
     transition: transform 0.2s ease-out;
@@ -41,7 +41,7 @@
     transform: translateY(0);
   }
   
-  /* Fundo escurecido */
+  
   .modal-backdrop {
     position: fixed;
     top: 0;
@@ -60,7 +60,7 @@
     visibility: visible;
   }
   
-  /* Estilos para o conteúdo do modal */
+ 
   .modal-content {
     background-color: white;
     border-radius: 12px;
@@ -70,32 +70,31 @@
   
   /* Corpo do modal (adicionando mais espaçamento) */
   .modal-body {
-    padding: 1rem; /* Aumentando o espaçamento interno */
-    display: flex; /* Usando flexbox */
-    gap: 1rem; /* Espaçamento entre as divs */
-    flex-wrap: wrap; /* Permite que as divs quebrem para a linha seguinte se não couberem na tela */
-    justify-content: space-between; /* Alinha as divs horizontalmente com espaçamento entre elas */
+    padding: 1rem; 
+    display: flex; 
+    gap: 1rem; 
+    flex-wrap: wrap; 
+    justify-content: space-between; 
   }
   
   .modal-body > div {
-    flex: 0.5; /* Faz com que cada div ocupe 50% do espaço disponível */
-    min-width: 100px; /* Define uma largura mínima para cada div */
-    box-sizing: border-box; /* Garante que padding e borda não afetam o tamanho total */
+    flex: 0.5;
+    min-width: 100px; 
+    box-sizing: border-box;
   }
   
-  /* Estilos para as divs internas (caso você tenha inputs ou outros componentes) */
   .modal-body input,
   .modal-body select,
   .modal-body textarea {
-    width: 100%; /* Faz os campos ocuparem toda a largura disponível da div */
+    width: 100%;
     padding: 0.35rem;
     border-radius: 8px;
     border: 1px solid #ddd;
     font-size: 1rem;
-    box-sizing: border-box; /* Garantir que o padding não afete o tamanho total do elemento */
+    box-sizing: border-box;
   }
   
-  /* Cabeçalho do modal */
+
   .modal-header {
     display: flex;
     justify-content: space-between;

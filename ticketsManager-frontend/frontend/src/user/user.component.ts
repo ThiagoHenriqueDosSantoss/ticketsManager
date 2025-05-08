@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Certifique-se de que FormsModule foi importado
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Certifique-se de que o FormsModule está na lista de imports
+  imports: [CommonModule, FormsModule],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })

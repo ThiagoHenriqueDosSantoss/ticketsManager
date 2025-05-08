@@ -1,8 +1,8 @@
 .container {
     display: flex;
-    height: 80vh;  /* Diminuindo a altura */
-    width: 70%;    /* Diminuindo a largura */
-    margin: 10vh auto; /* Ajustando a margem para centralizar */
+    height: 80vh;
+    width: 70%;
+    margin: 10vh auto;
     font-family: Arial, sans-serif;
     border-radius: 12px;
     background-color: #ffffff;
@@ -11,8 +11,8 @@
 }
 
 .sidebar {
-    width: 180px; /* Diminuindo a largura da sidebar */
-    background-color: #5fa6ec; /* azul claro frio */
+    width: 180px;
+    background-color: #5fa6ec;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -27,13 +27,13 @@
     font-size: 16px;
     padding: 10px;
     border-radius: 5px;
-    color: #113e6b; /* azul acinzentado */
+    color: #113e6b;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .sidebar button:hover {
-    background-color: #d4e1ec; /* hover com tom mais escuro */
+    background-color: #d4e1ec;
 }
 
 .main-content {
