@@ -10,16 +10,18 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ticket", updatable = false, nullable = false)
+    @Column(name = "idticket", updatable = false, nullable = false)
     private Long idTicket;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "iduser", nullable = false)
     private User idUser;
 
+    @Column(name = "quantidade", nullable = false)
     private Long quantidade;
 
-    private LocalDateTime dataEntrega;
+    @Column(name = "dataentregaticket")
+    private LocalDateTime dataEntregaTicket;
 
     public Ticket(){
 
@@ -49,11 +51,11 @@ public class Ticket {
         this.quantidade = quantidade;
     }
 
-    public LocalDateTime getDataEntrega() {
-        return dataEntrega;
+    public LocalDateTime getDataEntregaTicket() {
+        return dataEntregaTicket;
     }
 
-    public void setDataEntrega(LocalDateTime dataEntrega) {
-        this.dataEntrega = dataEntrega;
+    public void setDataEntregaTicket(LocalDateTime dataEntrega) {
+        this.dataEntregaTicket = dataEntrega;
     }
 }

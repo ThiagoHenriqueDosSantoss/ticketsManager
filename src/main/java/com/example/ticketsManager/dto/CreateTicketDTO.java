@@ -15,7 +15,7 @@ public class CreateTicketDTO {
     @NotBlank
     private Long quantidade;
 
-    private LocalDateTime dataEntrega;
+    private LocalDateTime dataEntregaTicket;
 
     public Long getIdUser() {
         return idUser;
@@ -33,11 +33,11 @@ public class CreateTicketDTO {
         this.quantidade = quantidade;
     }
 
-    public LocalDateTime getDataEntrega() {
-        return dataEntrega;
+    public LocalDateTime getDataEntregaTicket() {
+        return dataEntregaTicket;
     }
 
-    public void setDataEntrega(LocalDateTime dataEntrega) {
-        this.dataEntrega = dataEntrega;
+    public void setDataEntregaTicket(LocalDateTime dataEntregaTicket) {
+        this.dataEntregaTicket = dataEntregaTicket;
     }
 }

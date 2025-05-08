@@ -40,7 +40,7 @@ public class TicketService {
             ticket.setQuantidade(dto.getQuantidade());
 
             LocalDateTime now = LocalDateTime.now();
-            ticket.setDataEntrega(now);
+            ticket.setDataEntregaTicket(now);
 
             return ticketRepository.save(ticket);
         } catch (Exception e) {

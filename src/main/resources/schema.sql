@@ -6,3 +6,12 @@ CREATE TABLE IF NOT EXISTS tb_user (
   dataCriacao TIMESTAMP DEFAULT NOW(),
   dataAtualizacao TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS tb_ticket (
+    idTicket SERIAL PRIMARY KEY,
+    dataEntregaTicket TIMESTAMP DEFAULT NOW(),
+    quantidade INT NOT NULL,
+    idUser INT,
+
+    CONSTRAINT fk_user FOREIGN KEY (idUser) REFERENCES tb_user(iduser)
+);
