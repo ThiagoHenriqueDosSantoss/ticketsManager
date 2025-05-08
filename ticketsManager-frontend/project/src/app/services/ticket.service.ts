@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Ticket } from '../models/ticket.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
-  private tickets: Ticket[] = [];
-  private currentId = 1;
-  private ticketsSubject = new BehaviorSubject<Ticket[]>([]);
+  private apiUrl = 'http://localhost:8080/ticket';
 
-  getTickets() {
-    return this.ticketsSubject.asObservable();
+  constructor(private http: HttpClient) {}
+
+  getTickets(): Observable<Ticket[]> {
+    return this.http.get<Ticket[]>(this.apiUrl);
   }
 
-  addTicket(ticket: Omit<Ticket, 'id'>) {
-    const newTicket = { ...ticket, id: this.currentId++ };
-    this.tickets.push(newTicket);
-    this.ticketsSubject.next([...this.tickets]);
+  addTicket(ticket: Omit<Ticket, 'id'>): Observable<Ticket> {
+    return this.http.post<Ticket>(this.apiUrl, ticket);
   }
+
 }

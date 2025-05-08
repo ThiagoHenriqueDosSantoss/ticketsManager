@@ -11,28 +11,38 @@ import { User } from '../../models/user.model';
   imports: [CommonModule, FormsModule],
   template: `
     <div class="content">
-      <h2>Criar Ticket</h2>
-      <div class="form-group">
-        <label>Usuário:</label>
-        <select [(ngModel)]="userId">
-          <option value="">Selecione um usuário</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Quantidade:</label>
-        <input [(ngModel)]="quantity" type="number" min="1">
-      </div>
-      <button (click)="createTicket()">Criar Ticket</button>
-    </div>
+  <h2>Criar Ticket</h2>
+
+  <div *ngIf="successMessage" style="color: green; margin-bottom: 10px;">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" style="color: red; margin-bottom: 10px;">
+    {{ errorMessage }}
+  </div>
+
+  <div class="form-group">
+    <label>Usuário:</label>
+    <select [(ngModel)]="userId">
+      <option value="">Selecione um usuário</option>
+      <option *ngFor="let user of users" [value]="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Quantidade:</label>
+    <input [(ngModel)]="quantity" type="number" min="1">
+  </div>
+  <button (click)="createTicket()">Criar Ticket</button>
+</div>
   `
 })
 export class TicketFormComponent {
   users: User[] = [];
   userId: number | null = null;
   quantity = 1;
+  successMessage = '';
+  errorMessage = '';
 
   constructor(
     private ticketService: TicketService,
@@ -44,14 +54,25 @@ export class TicketFormComponent {
   }
 
   createTicket() {
-    if (this.userId && this.quantity > 0) {
-      this.ticketService.addTicket({
-        userId: this.userId,
-        quantity: this.quantity
-      });
-      this.resetForm();
-    }
+  if (this.userId && this.quantity > 0) {
+    this.ticketService.addTicket({
+      userId: this.userId,
+      quantity: this.quantity
+    }).subscribe({
+      next: (response) => {
+        this.successMessage = 'Ticket criado com sucesso!';
+        this.errorMessage = '';
+        this.resetForm();
+      },
+      error: (err) => {
+        this.errorMessage = 'Erro ao criar ticket. Tente novamente.';
+        this.successMessage = '';
+        console.error(err);
+      }
+    });
   }
+}
+
 
   resetForm() {
     this.userId = null;

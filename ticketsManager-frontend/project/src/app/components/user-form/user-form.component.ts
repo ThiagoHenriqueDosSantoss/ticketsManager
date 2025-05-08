@@ -1,93 +1,77 @@
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
-
 @Component({
   selector: 'app-user-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
     <div class="content">
-      <h2>{{ editingUser ? 'Editar Usuário' : 'Criar Usuário' }}</h2>
+      <h2>Criar Usuário</h2>
+
+      <div *ngIf="successMessage" style="color: green; margin-bottom: 10px;">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" style="color: red; margin-bottom: 10px;">
+        {{ errorMessage }}
+      </div>
+
       <div class="form-group">
         <label>Nome:</label>
-        <input [(ngModel)]="name" type="text">
+        <input [(ngModel)]="name" type="text" placeholder="Digite o nome">
       </div>
+
       <div class="form-group">
         <label>CPF:</label>
-        <input [(ngModel)]="cpf" type="text">
+        <input [(ngModel)]="cpf" type="text" placeholder="Digite o CPF">
       </div>
+
       <div class="form-group">
         <label>Status:</label>
         <select [(ngModel)]="status">
-          <option value="active">Ativo</option>
-          <option value="inactive">Inativo</option>
+          <option value="A">Ativo</option>
+          <option value="I">Inativo</option>
         </select>
       </div>
-      <button (click)="saveUser()">{{ editingUser ? 'Atualizar' : 'Criar' }}</button>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Status</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{ user.name }}</td>
-            <td>{{ user.cpf }}</td>
-            <td>{{ user.status === 'active' ? 'Ativo' : 'Inativo' }}</td>
-            <td>
-              <button (click)="editUser(user)">Editar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <button (click)="createUser()">Criar Usuário</button>
     </div>
   `
 })
 export class UserFormComponent {
-  users: User[] = [];
   name = '';
   cpf = '';
   status: 'active' | 'inactive' = 'active';
-  editingUser: User | null = null;
+  successMessage = '';
+  errorMessage = '';
 
-  constructor(private userService: UserService) {
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
-    });
-  }
+  constructor(private userService: UserService) {}
 
-  saveUser() {
-    if (this.editingUser) {
-      this.userService.updateUser({
-        ...this.editingUser,
+  createUser() {
+    if (this.name && this.cpf && this.status) {
+      const newUser = {
         name: this.name,
         cpf: this.cpf,
         status: this.status
-      });
-      this.editingUser = null;
+      };
+
+      this.userService.addUser(newUser)
+        .subscribe({
+          next: (response) => {
+            this.successMessage = 'Usuário criado com sucesso!';
+            this.errorMessage = '';
+            this.resetForm();
+          },
+          error: (err) => {
+            this.errorMessage = 'Erro ao criar usuário. Tente novamente.';
+            this.successMessage = '';
+            console.error(err);
+          }
+        });
     } else {
-      this.userService.addUser({
-        name: this.name,
-        cpf: this.cpf,
-        status: this.status
-      });
+      this.errorMessage = 'Preencha todos os campos.';
     }
-    this.resetForm();
-  }
-
-  editUser(user: User) {
-    this.editingUser = user;
-    this.name = user.name;
-    this.cpf = user.cpf;
-    this.status = user.status;
   }
 
   resetForm() {
