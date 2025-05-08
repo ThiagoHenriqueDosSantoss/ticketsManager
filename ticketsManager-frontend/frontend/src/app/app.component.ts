@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { UserComponent } from '../user/user.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [UserComponent],  // Importando UserComponent diretamente
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Ticket Manager';
+
+  // Controla a visibilidade do modal
+  showModal = false;
+
+  openModal() {
+    this.showModal = true;  // Exibe o modal
+  }
+
+  fecharModalUsuario() {
+    this.showModal = false;  // Fecha o modal
+  }
 }

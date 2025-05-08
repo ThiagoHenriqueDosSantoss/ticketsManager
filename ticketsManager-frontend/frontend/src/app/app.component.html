@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Sidebar -->
   <div class="sidebar">
-    <button>Criar Usuário</button>
+    <button (click)="openModal()">Criar Usuário</button>
     <button>Criar Ticket</button>
     <button>Relatório</button>
   </div>
@@ -10,4 +10,11 @@
   <div class="main-content">
     <h1>Bem-vindo ao Ticket Manager!</h1>
   </div>
+  
+  <!-- Modal -->
+  
+<app-user 
+[showModal]="showModal" 
+(fecharModal)="fecharModalUsuario()">
+</app-user>
 </div>

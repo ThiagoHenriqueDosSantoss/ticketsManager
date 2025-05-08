@@ -1,0 +1,37 @@
+<!-- user.component.html -->
+<div class="modal fade show d-block" tabindex="-1" *ngIf="showModal" style="background: rgba(0, 0, 0, 0.5)">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Criar Usuário</h5>
+          <button type="button" class="btn-close" (click)="fecharModal.emit()">X</button>
+        </div>
+        <div class="modal-body">
+          <form #userForm="ngForm">
+            <div class="mb-3">
+              <label for="nome" class="form-label">Nome</label>
+              <input type="text" id="nome" class="form-control" [(ngModel)]="nome" name="nome">
+            </div>
+            <br>
+            <div class="mb-3">
+              <label for="cpf" class="form-label">CPF</label>
+              <input type="text" id="cpf" class="form-control" [(ngModel)]="cpf" name="cpf">
+            </div>
+            <br>
+            <div class="mb-3">
+              <label for="situacao" class="form-label">Situação</label>
+              <select id="situacao" class="form-select" [(ngModel)]="situacao" name="situacao">
+                <option value="A">Ativo</option>
+                <option value="I">Inativo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="fecharModal.emit()">Cancelar</button>
+          <button class="btn btn-primary" (click)="salvarUsuario()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
