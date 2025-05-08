@@ -8,13 +8,12 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user", updatable = false, nullable = false)
+    @Column(name = "id_ticket", updatable = false, nullable = false)
     private Long idTicket;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @Column(nullable = false)
-    private Long idUser;
+    @JoinColumn(name = "id_user", nullable = false)
+    private User idUser;
 
     private Long quantidade;
 
@@ -30,11 +29,11 @@ public class Ticket {
         this.idTicket = idTicket;
     }
 
-    public Long getIdUser() {
+    public User getUser() {
         return idUser;
     }
 
-    public void setIdUser(Long idUser) {
+    public void setUser(User idUser) {
         this.idUser = idUser;
     }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,6 +29,9 @@ public class User {
     private LocalDateTime dataCriacao;
 
     private LocalDateTime dataAlteracao;
+
+    @OneToMany(mappedBy = "idUser")
+    private List<Ticket> tickets;
 
     public User(){
 
