@@ -7,6 +7,7 @@ import com.example.ticketsManager.repository.UserRepository;
 import com.example.ticketsManager.services.TicketService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,15 +29,11 @@ public class TicketController {
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody CreateTicketDTO dto){
         try{
-            if (dto.getIdUser() == null) {
-                throw new BadRequestException("O ID do usuário não pode ser nulo.");
-            }
-
             Ticket response = ticketService.createTicket(dto);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.severe("Falha ao criar ticket no controller!");
-            throw new RuntimeException(e);
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }
