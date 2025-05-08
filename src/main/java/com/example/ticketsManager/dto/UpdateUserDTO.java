@@ -23,9 +23,7 @@ public class UpdateUserDTO {
     @Pattern(regexp = "^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$", message = "O cpf informado é inválido!")
     private String cpf;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private UserSituation situacaoUsuario;
+    private String situacaoUsuario;
 
 
     public @Size(min = 3, max = 30) @Pattern(regexp = "^[A-Za-zÀ-ÿ\\\\s]+$", message = "O nome não pode conter caracteres especiais!") String getNome() {
@@ -36,7 +34,7 @@ public class UpdateUserDTO {
         return cpf;
     }
 
-    public @NotBlank UserSituation getSituacaoUsuario() {
+    public String getSituacaoUsuario() {
         return situacaoUsuario;
     }
 

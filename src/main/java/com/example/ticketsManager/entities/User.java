@@ -24,7 +24,7 @@ public class User {
     private String cpf;
 
     @Column(name = "situacaousuario",nullable = false)
-    private UserSituation situacaoUsuario;
+    private String situacaoUsuario;
 
     @Column(name = "datacriacao")
     private LocalDateTime dataCriacao;
@@ -64,11 +64,11 @@ public class User {
         this.cpf = cpf;
     }
 
-    public UserSituation getSituacaoUsuario() {
+    public String getSituacaoUsuario() {
         return situacaoUsuario;
     }
 
-    public void setSituacaoUsuario(UserSituation situacaoUsuario) {
+    public void setSituacaoUsuario(String situacaoUsuario) {
         this.situacaoUsuario = situacaoUsuario;
     }
 

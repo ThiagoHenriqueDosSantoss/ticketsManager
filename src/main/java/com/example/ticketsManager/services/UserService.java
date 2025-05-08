@@ -52,7 +52,7 @@ public class UserService {
             if (dto.getSituacaoUsuario() == null) {
                 throw new BadRequestException("A situação do usuário é obrigatória!");
             }
-            if (dto.getSituacaoUsuario() != UserSituation.A) {
+            if (!"A".equals(dto.getSituacaoUsuario())) {
                 throw new BadRequestException("Ao criar usuário a situação não pode ser diferente de A - Ativa!");
             }
             users.setSituacaoUsuario(dto.getSituacaoUsuario());
@@ -70,14 +70,12 @@ public class UserService {
         try {
             Optional<User> userOptional = userRepository.findById(idUser);
 
-
-            if (userOptional.isEmpty()){
+            if (userOptional.isEmpty()) {
                 throw new BadRequestException("O id informado não foi encontrado!");
             }
-
             User users = userOptional.get();
 
-            if (dto.getNome() != null || !dto.getNome().isBlank()) {
+            if (dto.getNome() != null && !dto.getNome().isBlank()) {
                 if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
                     throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
                 }
@@ -87,20 +85,20 @@ public class UserService {
                 users.setNome(dto.getNome());
             }
 
-
             if (dto.getCpf() != null && !dto.getCpf().isBlank()) {
                 if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
-                    throw new BadRequestException("O cpf informado é inválido!");
+                    throw new BadRequestException("O CPF informado é inválido!");
                 }
                 if (userRepository.validaCpf(dto.getCpf())) {
-                    throw new BadRequestException("O cpf informado já existe!");
+                    throw new BadRequestException("O CPF informado já existe!");
                 }
                 users.setCpf(dto.getCpf());
             }
 
-            if (dto.getSituacaoUsuario() == null) {
-                throw new BadRequestException("A situação do usuário é obrigatória!");
+            if (dto.getSituacaoUsuario() != null) {
+                users.setSituacaoUsuario(dto.getSituacaoUsuario());
             }
+
 
             users.setSituacaoUsuario(dto.getSituacaoUsuario());
 
