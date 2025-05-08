@@ -97,10 +97,13 @@ public class UserService {
 
             if (dto.getSituacaoUsuario() != null) {
                 users.setSituacaoUsuario(dto.getSituacaoUsuario());
+            }else{
+                if ("A".equals(dto.getSituacaoUsuario())){
+                    users.setSituacaoUsuario("A");
+                }else{
+                    users.setSituacaoUsuario("I");
+                }
             }
-
-
-            users.setSituacaoUsuario(dto.getSituacaoUsuario());
 
             LocalDateTime now = LocalDateTime.now();
             users.setDataAlteracao(now);
