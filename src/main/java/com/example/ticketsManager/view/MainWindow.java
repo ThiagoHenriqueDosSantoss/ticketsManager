@@ -49,8 +49,8 @@ public class MainWindow extends JFrame {
 
         for (JButton botao: botoes){
             botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
-            botao.setMaximumSize(new Dimension(100, 50)); // Tamanho máximo
-            botao.setMinimumSize(new Dimension(100, 50)); // Tamanho mínimo
+            botao.setMaximumSize(new Dimension(200, 100)); // Tamanho máximo
+            botao.setMinimumSize(new Dimension(100, 100)); // Tamanho mínimo
             botao.setFont(new Font("Arial", Font.BOLD, 16));
 
             botao.setFocusPainted(false); // Tira o foco feio quando clica
