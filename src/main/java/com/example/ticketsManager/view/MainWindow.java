@@ -1,9 +1,14 @@
 package com.example.ticketsManager.view;
 
+import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
+import com.example.ticketsManager.dto.CreateTicketDTO;
 import com.example.ticketsManager.dto.CreateUserDTO;
 import com.example.ticketsManager.dto.UpdateUserDTO;
+import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
+import org.apache.coyote.BadRequestException;
+
 import java.util.List;
 
 import javax.swing.*;
@@ -12,9 +17,12 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     private  UserController userController;
 
-    public MainWindow(UserController userController) {
+    private TicketController ticketController;
+
+    public MainWindow(UserController userController, TicketController ticketController) {
 
         this.userController = userController;
+        this.ticketController = ticketController;
 
         // Característica do JFrame
         setTitle("Tickets Manager");
@@ -52,6 +60,7 @@ public class MainWindow extends JFrame {
         jbCriarUsuarios.addActionListener(e ->adicionarUsuário());
         jbEditarUsuario.addActionListener(e -> editarUsuario());
         jbListarUsuario.addActionListener(e -> listarUsuario());
+        jbCriarTicket.addActionListener(e -> criarTicket());
 
         add(painel);
     }
@@ -211,4 +220,36 @@ public class MainWindow extends JFrame {
 
             JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
     }
+    public void criarTicket() {
+        try {
+            String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário para o ticket:");
+            if (idStr == null || !idStr.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "ID inválido!");
+                return;
+            }
+            Long idUser = Long.parseLong(idStr);
+
+            String qtdStr = JOptionPane.showInputDialog(null, "Informe a quantidade de tickets:");
+            if (qtdStr == null || !qtdStr.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "Quantidade inválida!");
+                return;
+            }
+            Long quantidade = Long.parseLong(qtdStr);
+            if (quantidade <= 0) {
+                JOptionPane.showMessageDialog(null, "A quantidade deve ser maior que zero!");
+                return;
+            }
+
+            CreateTicketDTO dto = new CreateTicketDTO();
+            dto.setIdUser(idUser);
+            dto.setQuantidade(quantidade);
+
+            ticketController.createTicket(dto);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
 }

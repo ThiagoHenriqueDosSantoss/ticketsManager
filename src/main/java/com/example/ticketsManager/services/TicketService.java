@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -30,25 +31,35 @@ public class TicketService {
     public Ticket createTicket(CreateTicketDTO dto){
         try {
             Ticket ticket = new Ticket();
-            if (dto.getIdUser() == null) {
-                throw new BadRequestException("Informe o usuário que se vinculará ao ticket!");
-            }
-            User user = userRepository.findById(dto.getIdUser())
-                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-            ticket.setUser(user);
+            try{
 
-            if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
-                throw new BadRequestException("Informe uma quantidade válida de tickets!");
-            }
-            ticket.setQuantidade(dto.getQuantidade());
+                if (dto.getIdUser() == null) {
+                    JOptionPane.showMessageDialog(null,"Informe o id do usuario que se vinculará ao ticket!");
+                    throw new BadRequestException("Informe o usuário que se vinculará ao ticket!");
+                }
+                User user = userRepository.findById(dto.getIdUser())
+                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                ticket.setUser(user);
 
-            LocalDateTime now = LocalDateTime.now();
-            ticket.setDataEntregaTicket(now);
+                if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
+                    JOptionPane.showMessageDialog(null,"Informe uma quantidade válida de tickets!");
+                    throw new BadRequestException("Informe uma quantidade válida de tickets!");
+                }
+                ticket.setQuantidade(dto.getQuantidade());
 
-            if (!"A".equals(user.getSituacaoUsuario())) {
-                throw new RuntimeException("Não é possível criar um ticket para um usuário inativo.");
+                LocalDateTime now = LocalDateTime.now();
+                ticket.setDataEntregaTicket(now);
+
+                if (!"A".equals(user.getSituacaoUsuario())) {
+                    JOptionPane.showMessageDialog(null,"Não é possível criar um ticket para um usuário inativo.");
+                    throw new RuntimeException("Não é possível criar um ticket para um usuário inativo.");
+                }
+
+                JOptionPane.showMessageDialog(null, "Ticket criado com sucesso!");
+                return ticketRepository.save(ticket);
+            }catch (BadRequestException e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             }
-            return ticketRepository.save(ticket);
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao criar um ticket no services!" + e.getMessage());
         }

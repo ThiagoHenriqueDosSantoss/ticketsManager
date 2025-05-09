@@ -1,5 +1,6 @@
 package com.example.ticketsManager;
 
+import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
 import com.example.ticketsManager.view.MainWindow;
 import org.springframework.boot.SpringApplication;
@@ -21,9 +22,10 @@ public class TicketsManagerApplication {
 		ConfigurableApplicationContext context = app.run(args);
 
 		UserController userController = context.getBean(UserController.class);
+		TicketController ticketController = context.getBean(TicketController.class);
 
 		SwingUtilities.invokeLater(() -> {
-			MainWindow mainWindow = new MainWindow(userController);
+			MainWindow mainWindow = new MainWindow(userController,ticketController);
 			mainWindow.setVisible(true);
 		});
 	}
