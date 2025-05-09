@@ -4,6 +4,7 @@ import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
 import com.example.ticketsManager.dto.CreateTicketDTO;
 import com.example.ticketsManager.dto.CreateUserDTO;
+import com.example.ticketsManager.dto.UpdateTicketDTO;
 import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
@@ -61,6 +62,7 @@ public class MainWindow extends JFrame {
         jbEditarUsuario.addActionListener(e -> editarUsuario());
         jbListarUsuario.addActionListener(e -> listarUsuario());
         jbCriarTicket.addActionListener(e -> criarTicket());
+        jbEditarTicket.addActionListener(e -> editarTicket());
 
         add(painel);
     }
@@ -251,5 +253,59 @@ public class MainWindow extends JFrame {
             e.printStackTrace();
         }
     }
+    public void editarTicket() {
+        String idStr = JOptionPane.showInputDialog(null, "Informe o ID do ticket a editar:");
+        if (idStr == null || !idStr.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "ID do ticket inválido!");
+            return;
+        }
+        Long idTicket = Long.parseLong(idStr);
 
+        Long idUser = null;
+        Long novaQuantidade = null;
+
+        int opcaoUsuario = JOptionPane.showConfirmDialog(null, "Deseja vincular o ticket a outro usuário?", "Alterar Usuário", JOptionPane.YES_NO_OPTION);
+        if (opcaoUsuario == JOptionPane.YES_OPTION) {
+            String idUserStr = JOptionPane.showInputDialog(null, "Informe o novo ID do usuário:");
+            if (idUserStr == null || !idUserStr.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "ID de usuário inválido!");
+                return;
+            }
+            idUser = Long.parseLong(idUserStr);
+        }
+
+        int opcaoQtd = JOptionPane.showConfirmDialog(null, "Deseja alterar a quantidade de tickets?", "Alterar Quantidade", JOptionPane.YES_NO_OPTION);
+        if (opcaoQtd == JOptionPane.YES_OPTION) {
+            String qtdStr = JOptionPane.showInputDialog(null, "Informe a nova quantidade de tickets:");
+            if (qtdStr == null || !qtdStr.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "Quantidade inválida!");
+                return;
+            }
+            novaQuantidade = Long.parseLong(qtdStr);
+            if (novaQuantidade <= 0) {
+                JOptionPane.showMessageDialog(null, "A quantidade deve ser maior que zero!");
+                return;
+            }
+        }
+
+        if (idUser == null && novaQuantidade == null) {
+            JOptionPane.showMessageDialog(null, "Nenhum dado foi alterado.");
+            return;
+        }
+
+        UpdateTicketDTO dto = new UpdateTicketDTO();
+        dto.setIdUser(idUser);
+        dto.setQuantidade(novaQuantidade);
+
+        try {
+            ticketController.updateTicket(idTicket, dto);
+
+            if (ticketController == null) {
+                JOptionPane.showMessageDialog(null, "Ticket não encontrado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar o ticket: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
 }

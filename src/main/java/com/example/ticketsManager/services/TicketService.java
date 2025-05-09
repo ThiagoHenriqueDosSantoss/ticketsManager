@@ -66,32 +66,44 @@ public class TicketService {
         return null;
     }
     @Transactional
-    public Ticket uptadeTicket(Long idUser,UpdateTicketDTO dto){
+    public Ticket updateTicket(Long idTicket, UpdateTicketDTO dto) {
         try {
-            User user = userRepository.findById(idUser).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+            Optional<Ticket> optionalTicket = ticketRepository.findById(idTicket);
 
-            Optional<Ticket> optionalTicket = ticketRepository.findById(idUser);
-
-
-            if (optionalTicket.isEmpty()){
-                throw new BadRequestException("O id informado não foi encontrado!");
+            if (optionalTicket.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O ticket informado não foi encontrado!");
+                return null;
             }
             Ticket ticket = optionalTicket.get();
 
-            if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
-                throw new BadRequestException("Informe uma quantidade válida de tickets!");
+            if (dto.getIdUser() != null) {
+                User user = userRepository.findById(dto.getIdUser()).orElse(null);
+                if (user == null) {
+                    JOptionPane.showMessageDialog(null, "Usuário não encontrado!");
+                    return null;
+                }
+                if (!"A".equals(user.getSituacaoUsuario())) {
+                    JOptionPane.showMessageDialog(null, "Usuário inativo. Não é possível atualizar o ticket.");
+                    return null;
+                }
+                ticket.setUser(user);
             }
-            ticket.setQuantidade(dto.getQuantidade());
 
-            LocalDateTime now = LocalDateTime.now();
-            ticket.setAtualizaoEntregaTicket(now);
-
-            if (!"A".equals(user.getSituacaoUsuario())) {
-                throw new RuntimeException("Não é possível criar um ticket para um usuário inativo.");
+            if (dto.getQuantidade() != null) {
+                if (dto.getQuantidade() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Informe uma quantidade maior que zero!");
+                    return null;
+                }
+                ticket.setQuantidade(dto.getQuantidade());
             }
+            ticket.setAtualizaoEntregaTicket(LocalDateTime.now());
+
+            JOptionPane.showMessageDialog(null,"Ticket atualizado com sucesso!");
             return ticketRepository.save(ticket);
+
         } catch (Exception e) {
-            logger.severe("ERROR: Falha ao criar um ticket no services! " + e.getMessage());
+            logger.severe("ERROR: Falha ao atualizar o ticket! " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar o ticket: " + e.getMessage());
         }
         return null;
     }

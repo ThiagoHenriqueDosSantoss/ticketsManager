@@ -3,7 +3,6 @@ package com.example.ticketsManager.services;
 import com.example.ticketsManager.dto.CreateUserDTO;
 import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
-import com.example.ticketsManager.enums.UserSituation;
 import com.example.ticketsManager.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 @Service
@@ -93,7 +91,6 @@ public class UserService {
                     throw new BadRequestException("O id informado não foi encontrado!");
                 }
                 User users = userOptional.get();
-
                 if (dto.getNome() != null && !dto.getNome().isBlank()) {
                     if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
                         throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");

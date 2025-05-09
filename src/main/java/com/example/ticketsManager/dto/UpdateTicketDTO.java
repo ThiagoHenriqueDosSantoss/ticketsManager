@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public class UpdateTicketDTO {
 
+    private Long idUser;
+
     @NotBlank
     private Long quantidade;
 
@@ -26,5 +28,13 @@ public class UpdateTicketDTO {
 
     public void setDtAtualizacaoTicket(LocalDateTime dtAtualizacaoTicket) {
         this.dtAtualizacaoTicket = dtAtualizacaoTicket;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 }

@@ -39,7 +39,7 @@ public class TicketController {
     @PatchMapping(value = "/{idTicket}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long idTicket, @RequestBody UpdateTicketDTO dto){
         try{
-            Ticket response = ticketService.uptadeTicket(idTicket,dto);
+            Ticket response = ticketService.updateTicket(idTicket,dto);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao atualizar ticket em controller!" + e.getMessage());
