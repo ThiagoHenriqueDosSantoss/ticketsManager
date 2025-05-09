@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -134,6 +135,15 @@ public class UserService {
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao atualizar usuario no services!");
             throw new RuntimeException(e);
+        }
+        return null;
+    }
+    public List<User> listUser(){
+        try{
+            List<User> userList = userRepository.findAll();
+            return userList;
+        } catch (Exception e) {
+            logger.severe("ERROR: Falha ao listar usuario no services!");
         }
         return null;
     }

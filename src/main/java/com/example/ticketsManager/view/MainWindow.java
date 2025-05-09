@@ -4,6 +4,7 @@ import com.example.ticketsManager.controller.UserController;
 import com.example.ticketsManager.dto.CreateUserDTO;
 import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,12 +30,13 @@ public class MainWindow extends JFrame {
         // Características dos botões
         JButton jbCriarUsuarios = new JButton("Criar Usuário");
         JButton jbEditarUsuario = new JButton("Editar Usuário");
+        JButton jbListarUsuario= new JButton("Listar Usuário");
         JButton jbCriarTicket = new JButton("Criar Ticket");
         JButton jbEditarTicket = new JButton("Editar Ticket");
         JButton jbRelatorio = new JButton("Relatório");
 
         // Adicionando os botões ao painel
-        JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbCriarTicket,jbEditarTicket,jbRelatorio};
+        JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbListarUsuario,jbCriarTicket,jbEditarTicket,jbRelatorio};
 
         for (JButton botao: botoes){
             botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
@@ -49,6 +51,7 @@ public class MainWindow extends JFrame {
         }
         jbCriarUsuarios.addActionListener(e ->adicionarUsuário());
         jbEditarUsuario.addActionListener(e -> editarUsuario());
+        jbListarUsuario.addActionListener(e -> listarUsuario());
 
         add(painel);
     }
@@ -183,5 +186,29 @@ public class MainWindow extends JFrame {
         dto.setSituacaoUsuario(status);
 
         userController.updateUser(id,dto);
+    }
+    public void listarUsuario() {
+            List<User> usuarios = userController.listUser();
+
+            if (usuarios == null || usuarios.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum usuário encontrado.");
+                return;
+            }
+
+            StringBuilder lista = new StringBuilder();
+            for (User user : usuarios) {
+                lista.append("ID: ").append(user.getIdUser()).append("\n");
+                lista.append("Nome: ").append(user.getNome()).append("\n");
+                lista.append("CPF: ").append(user.getCpf()).append("\n");
+                lista.append("Situação: ").append(user.getSituacaoUsuario()).append("\n");
+                lista.append("-------------------------\n");
+            }
+
+            JTextArea textArea = new JTextArea(lista.toString());
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(400, 300));
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
     }
 }

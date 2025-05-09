@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -37,12 +38,21 @@ public class UserController {
 
     public ResponseEntity<User> updateUser( Long idUser,UpdateUserDTO dto){
         try{
-            JOptionPane.showMessageDialog(null,"O id informado não existe!");
             User response = userService.updateUser(idUser,dto);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao atualizar usuario em controller!" + e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    public List<User>listUser() {
+        try {
+            List<User> response = userService.listUser();
+            return response;
+        } catch (Exception e) {
+            logger.severe("ERROR: Falha ao listar usuários no controller! " + e.getMessage());
+            return null;
+        }
     }
 }
