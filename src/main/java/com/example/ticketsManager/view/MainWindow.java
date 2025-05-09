@@ -39,7 +39,6 @@ public class MainWindow extends JFrame {
             botao.setMinimumSize(new Dimension(100, 50)); // Tamanho mínimo
             botao.setFont(new Font("Arial", Font.BOLD, 16));
 
-            // Deixa a borda arredondada
             botao.setFocusPainted(false); // Tira o foco feio quando clica
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             painel.add(botao); // Adiciona os botões ao JPanel
@@ -117,8 +116,6 @@ public class MainWindow extends JFrame {
             dto.setSituacaoUsuario(status);
 
             userController.createUser(dto);
-
-            JOptionPane.showMessageDialog(frame, "Usuário cadastrado com sucesso!");
             frame.dispose();
         });
 
