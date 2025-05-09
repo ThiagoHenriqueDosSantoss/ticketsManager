@@ -26,12 +26,14 @@ public class MainWindow extends JFrame {
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Características dos botões
-        JButton jbUsuários = new JButton("Usuários");
-        JButton jbTickets = new JButton("Tickets");
+        JButton jbCriarUsuarios = new JButton("Criar Usuário");
+        JButton jbEditarUsuario = new JButton("Editar Usuário");
+        JButton jbCriarTicket = new JButton("Criar Ticket");
+        JButton jbEditarTicket = new JButton("Editar Ticket");
         JButton jbRelatorio = new JButton("Relatório");
 
         // Adicionando os botões ao painel
-        JButton[] botoes = {jbUsuários,jbTickets,jbRelatorio};
+        JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbCriarTicket,jbEditarTicket,jbRelatorio};
 
         for (JButton botao: botoes){
             botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
@@ -44,7 +46,7 @@ public class MainWindow extends JFrame {
             painel.add(botao); // Adiciona os botões ao JPanel
             painel.add(Box.createVerticalStrut(25)); // Espaçamento vertical
         }
-        jbUsuários.addActionListener(e ->adicionarUsuário());
+        jbCriarTicket.addActionListener(e ->adicionarUsuário());
         add(painel);
     }
     public void adicionarUsuário() {
