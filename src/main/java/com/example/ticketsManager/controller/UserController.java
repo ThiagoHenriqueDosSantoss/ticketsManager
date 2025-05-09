@@ -13,8 +13,6 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping(value = "/user")
-
 public class UserController {
 
     @Autowired
@@ -22,8 +20,8 @@ public class UserController {
 
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO dto){
+
+    public ResponseEntity<User> createUser(CreateUserDTO dto){
         try{
             User response = userService.createUser(dto);
             return ResponseEntity.ok(response);
@@ -32,8 +30,8 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-    @PatchMapping(value = "/{idUser}")
-    public ResponseEntity<User> createUser(@PathVariable Long idUser, @RequestBody UpdateUserDTO dto){
+
+    public ResponseEntity<User> createUser( Long idUser,UpdateUserDTO dto){
         try{
             User response = userService.updateUser(idUser,dto);
             return ResponseEntity.ok(response);
