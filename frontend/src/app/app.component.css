@@ -1,0 +1,12 @@
+.example-container {
+    height: 100%;
+    display: flex;
+  }
+  
+  mat-sidenav {
+    width: 250px;
+  }
+  
+  .content {
+    padding: 20px;
+  }
