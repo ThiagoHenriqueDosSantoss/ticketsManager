@@ -12,15 +12,14 @@ import { AppRoutingModule } from './app.routes';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    AppRoutingModule,
     BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
     MatListModule,
-    // outros módulos...
   ],
   bootstrap: [AppComponent],
 })
