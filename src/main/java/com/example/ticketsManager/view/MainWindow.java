@@ -2,6 +2,7 @@ package com.example.ticketsManager.view;
 
 import com.example.ticketsManager.controller.UserController;
 import com.example.ticketsManager.dto.CreateUserDTO;
+import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
 
 import javax.swing.*;
@@ -46,7 +47,9 @@ public class MainWindow extends JFrame {
             painel.add(botao); // Adiciona os botões ao JPanel
             painel.add(Box.createVerticalStrut(25)); // Espaçamento vertical
         }
-        jbCriarTicket.addActionListener(e ->adicionarUsuário());
+        jbCriarUsuarios.addActionListener(e ->adicionarUsuário());
+        jbEditarUsuario.addActionListener(e -> editarUsuario());
+
         add(painel);
     }
     public void adicionarUsuário() {
@@ -134,5 +137,51 @@ public class MainWindow extends JFrame {
 
         frame.add(painel);
         frame.setVisible(true);
+    }
+
+    public void editarUsuario() {
+        String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário a editar:");
+        if (idStr == null || !idStr.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "ID inválido!");
+            return;
+        }
+        Long id = Long.parseLong(idStr);
+
+        String nome = null;
+        String cpf = null;
+        String status = null;
+
+        int opcaoNome = JOptionPane.showConfirmDialog(null, "Deseja informar o nome do usuário?", "Nome", JOptionPane.YES_NO_OPTION);
+        if (opcaoNome == JOptionPane.YES_OPTION) {
+            nome = JOptionPane.showInputDialog("Informe o nome completo:");
+            while (nome == null || nome.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nome é obrigatório.");
+                nome = JOptionPane.showInputDialog("Informe o nome completo:");
+            }
+        }
+
+
+        int opcaoCpf = JOptionPane.showConfirmDialog(null, "Deseja informar o CPF do usuário?", "CPF", JOptionPane.YES_NO_OPTION);
+        if (opcaoCpf == JOptionPane.YES_OPTION) {
+            cpf = JOptionPane.showInputDialog("Informe o CPF:");
+            while (cpf == null || cpf.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "CPF é obrigatório.");
+                cpf = JOptionPane.showInputDialog("Informe o CPF:");
+            }
+        }
+
+        int opcaoStatus = JOptionPane.showConfirmDialog(null, "Deseja informar a situação do usuário (A/I)?", "Situação", JOptionPane.YES_NO_OPTION);
+        if (opcaoStatus == JOptionPane.YES_OPTION) {
+            String[] opcoesStatus = {"A", "I"};
+            status = (String) JOptionPane.showInputDialog(null, "Selecione a situação do usuário:", "Situação",
+                    JOptionPane.QUESTION_MESSAGE, null, opcoesStatus, opcoesStatus[0]);
+        }
+
+        UpdateUserDTO dto = new UpdateUserDTO();
+        dto.setNome(nome);
+        dto.setCpf(cpf);
+        dto.setSituacaoUsuario(status);
+
+        userController.updateUser(id,dto);
     }
 }

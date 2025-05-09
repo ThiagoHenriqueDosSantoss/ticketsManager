@@ -126,6 +126,7 @@ public class UserService {
                 LocalDateTime now = LocalDateTime.now();
                 users.setDataAlteracao(now);
 
+                JOptionPane.showMessageDialog(null, "Usuário atualizado com sucesso!");
                 return userRepository.save(users);
             }catch (BadRequestException e){
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
