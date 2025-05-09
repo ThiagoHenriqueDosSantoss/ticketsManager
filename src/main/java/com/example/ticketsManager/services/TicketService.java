@@ -8,18 +8,24 @@ import com.example.ticketsManager.entities.User;
 import com.example.ticketsManager.repository.TicketRepository;
 import com.example.ticketsManager.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
 public class TicketService {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TicketService.class);
     @Autowired
     private TicketRepository ticketRepository;
     private static final Logger logger = Logger.getLogger(TicketService.class.getName());
@@ -106,5 +112,8 @@ public class TicketService {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o ticket: " + e.getMessage());
         }
         return null;
+    }
+    public List<Ticket> listarTicketsAteData(LocalDateTime dataFim) {
+        return ticketRepository.buscarTicketsPorDataFim(dataFim);
     }
 }

@@ -15,7 +15,7 @@ public class Ticket {
     private Long idTicket;
 
     @ManyToOne
-    @JoinColumn(name = "iduser", nullable = false)
+    @JoinColumn(name = "iduser", nullable = false, referencedColumnName = "iduser")
     private User idUser;
 
     @Column(name = "quantidade", nullable = false)
