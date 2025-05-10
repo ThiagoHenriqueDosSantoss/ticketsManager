@@ -2,29 +2,22 @@ package com.example.ticketsManager.view;
 
 import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
-import com.example.ticketsManager.dto.*;
+import com.example.ticketsManager.dto.CreateUserDTO;
+import com.example.ticketsManager.dto.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
-import org.apache.coyote.BadRequestException;
-import org.springframework.http.ResponseEntity;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.util.List;
 
-public class MainWindow extends JFrame {
-    private  UserController userController;
+public class Usuario extends JFrame {
+
+    private UserController userController;
 
     private TicketController ticketController;
 
-    public MainWindow(UserController userController, TicketController ticketController) {
-
-        this.userController = new UserController();
-        this.ticketController = ticketController;
+    public Usuario(MainWindow mainWindow, UserController userController, TicketController ticketController){
+        this.userController = userController;
 
         // Característica do JFrame
         setTitle("Tickets Manager");
@@ -38,12 +31,13 @@ public class MainWindow extends JFrame {
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Características dos botões
-        JButton jbUser = new JButton("Usuarios");
-        JButton jbTickets = new JButton("Tickets");
-        JButton jbRelatorio = new JButton("Relatório");
+        JButton jbCriarUsuarios = new JButton("Criar Usuário");
+        JButton jbEditarUsuario = new JButton("Editar Usuário");
+        JButton jbListarUsuario= new JButton("Listar Usuário");
+        JButton jbVoltar = new JButton("Voltar");
 
         // Adicionando os botões ao painel
-        JButton[] botoes = {jbUser,jbTickets,jbRelatorio};
+        JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbListarUsuario,jbVoltar};
 
         for (JButton botao: botoes){
             botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
@@ -56,17 +50,16 @@ public class MainWindow extends JFrame {
             painel.add(botao); // Adiciona os botões ao JPanel
             painel.add(Box.createVerticalStrut(25)); // Espaçamento vertical
         }
-        jbRelatorio.addActionListener(e -> emitirRelatorio());
-        jbUser.addActionListener(e -> {
-            Usuario usuario = new Usuario(this,userController,ticketController);
-            usuario.setVisible(true);
-        });
-        jbTickets.addActionListener(e ->{
-            Ticket ticket = new Ticket(this,userController,ticketController);
-            ticket.setVisible(true);
+        jbCriarUsuarios.addActionListener(e ->adicionarUsuário());
+        jbListarUsuario.addActionListener(e -> listarUsuario());
+        jbEditarUsuario.addActionListener(e -> editarUsuario());
+
+        jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
+            mainWindow.setVisible(true);
         });
 
         add(painel);
+
     }
     public void adicionarUsuário() {
         // Criar o JFrame
@@ -154,53 +147,73 @@ public class MainWindow extends JFrame {
         frame.add(painel);
         frame.setVisible(true);
     }
-
-    public void emitirRelatorio() {
-        try {
-            // Entrada da data
-            String dataFimStr = JOptionPane.showInputDialog(null, "Informe a data de fim (yyyy-MM-dd):");
-            if (dataFimStr == null || dataFimStr.trim().isEmpty()) return;
-
-            // Converte string para LocalDateTime com fim do dia
-            LocalDate dataFim = LocalDate.parse(dataFimStr);
-            LocalDateTime dataFimDateTime = dataFim.atTime(23, 59, 59);
-
-            // Chama diretamente o controller ou service
-            ResponseEntity<List<RelatorioTicketDTO>> response = ticketController.gerarRelatorio(dataFimDateTime);
-            List<RelatorioTicketDTO> lista = response.getBody();
-
-            if (lista.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nenhum ticket encontrado no período informado.");
-                return;
-            }
-
-            // Agrupa os dados
-            Map<String, Long> totalPorUsuario = new HashMap<>();
-            long totalGeral = 0;
-
-            for (RelatorioTicketDTO ticket : lista) {
-                if (ticket.getNome() == null) continue;
-                String nome = ticket.getNome();
-                long qtd = ticket.getTotalTickets();
-
-                totalPorUsuario.put(nome, totalPorUsuario.getOrDefault(nome, 0L) + qtd);
-                totalGeral += qtd;
-            }
-
-            // Monta string do relatório
-            StringBuilder relatorio = new StringBuilder("Relatório de Tickets por Funcionário:\n\n");
-            for (Map.Entry<String, Long> entry : totalPorUsuario.entrySet()) {
-                relatorio.append("Funcionário: ").append(entry.getKey())
-                        .append(" - Total: ").append(entry.getValue()).append("\n");
-            }
-            relatorio.append("\nTotal Geral no Período: ").append(totalGeral);
-
-            // Exibe
-            JOptionPane.showMessageDialog(null, relatorio.toString());
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao emitir relatório: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+    public void editarUsuario() {
+        String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário a editar:");
+        if (idStr == null || !idStr.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "ID inválido!");
+            return;
         }
+        Long id = Long.parseLong(idStr);
+
+        String nome = null;
+        String cpf = null;
+        String status = null;
+
+        int opcaoNome = JOptionPane.showConfirmDialog(null, "Deseja informar o nome do usuário?", "Nome", JOptionPane.YES_NO_OPTION);
+        if (opcaoNome == JOptionPane.YES_OPTION) {
+            nome = JOptionPane.showInputDialog("Informe o nome completo:");
+            while (nome == null || nome.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nome é obrigatório.");
+                nome = JOptionPane.showInputDialog("Informe o nome completo:");
+            }
+        }
+
+
+        int opcaoCpf = JOptionPane.showConfirmDialog(null, "Deseja informar o CPF do usuário?", "CPF", JOptionPane.YES_NO_OPTION);
+        if (opcaoCpf == JOptionPane.YES_OPTION) {
+            cpf = JOptionPane.showInputDialog("Informe o CPF:");
+            while (cpf == null || cpf.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "CPF é obrigatório.");
+                cpf = JOptionPane.showInputDialog("Informe o CPF:");
+            }
+        }
+
+        int opcaoStatus = JOptionPane.showConfirmDialog(null, "Deseja informar a situação do usuário (A/I)?", "Situação", JOptionPane.YES_NO_OPTION);
+        if (opcaoStatus == JOptionPane.YES_OPTION) {
+            String[] opcoesStatus = {"A", "I"};
+            status = (String) JOptionPane.showInputDialog(null, "Selecione a situação do usuário:", "Situação",
+                    JOptionPane.QUESTION_MESSAGE, null, opcoesStatus, opcoesStatus[0]);
+        }
+
+        UpdateUserDTO dto = new UpdateUserDTO();
+        dto.setNome(nome);
+        dto.setCpf(cpf);
+        dto.setSituacaoUsuario(status);
+
+        userController.updateUser(id,dto);
+    }
+    public void listarUsuario() {
+        List<User> usuarios = userController.listUser();
+
+        if (usuarios == null || usuarios.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum usuário encontrado.");
+            return;
+        }
+
+        StringBuilder lista = new StringBuilder();
+        for (User user : usuarios) {
+            lista.append("ID: ").append(user.getIdUser()).append("\n");
+            lista.append("Nome: ").append(user.getNome()).append("\n");
+            lista.append("CPF: ").append(user.getCpf()).append("\n");
+            lista.append("Situação: ").append(user.getSituacaoUsuario()).append("\n");
+            lista.append("-------------------------\n");
+        }
+
+        JTextArea textArea = new JTextArea(lista.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
     }
 }
