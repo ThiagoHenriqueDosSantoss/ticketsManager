@@ -2,10 +2,7 @@ package com.example.ticketsManager.view;
 
 import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
-import com.example.ticketsManager.dto.CreateTicketDTO;
-import com.example.ticketsManager.dto.CreateUserDTO;
-import com.example.ticketsManager.dto.UpdateTicketDTO;
-import com.example.ticketsManager.dto.UpdateUserDTO;
+import com.example.ticketsManager.dto.*;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
 import org.apache.coyote.BadRequestException;
@@ -316,29 +313,37 @@ public class MainWindow extends JFrame {
     }
     public void emitirRelatorio() {
         try {
+            // Entrada da data
             String dataFimStr = JOptionPane.showInputDialog(null, "Informe a data de fim (yyyy-MM-dd):");
             if (dataFimStr == null || dataFimStr.trim().isEmpty()) return;
 
-            LocalDateTime dataFim = LocalDateTime.parse(dataFimStr);
-            List<Ticket> tickets = ticketController.getTickets(dataFim);
+            // Converte string para LocalDateTime com fim do dia
+            LocalDate dataFim = LocalDate.parse(dataFimStr);
+            LocalDateTime dataFimDateTime = dataFim.atTime(23, 59, 59);
 
-            if (tickets.isEmpty()) {
+            // Chama diretamente o controller ou service
+            ResponseEntity<List<RelatorioTicketDTO>> response = ticketController.gerarRelatorio(dataFimDateTime);
+            List<RelatorioTicketDTO> lista = response.getBody();
+
+            if (lista.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum ticket encontrado no período informado.");
                 return;
             }
 
+            // Agrupa os dados
             Map<String, Long> totalPorUsuario = new HashMap<>();
             long totalGeral = 0;
 
-            for (Ticket ticket : tickets) {
-                if (ticket.getUser() == null) continue; // segurança
-                String nome = ticket.getUser().getNome();
-                long qtd = ticket.getQuantidade();
+            for (RelatorioTicketDTO ticket : lista) {
+                if (ticket.getNome() == null) continue;
+                String nome = ticket.getNome();
+                long qtd = ticket.getTotalTickets();
 
                 totalPorUsuario.put(nome, totalPorUsuario.getOrDefault(nome, 0L) + qtd);
                 totalGeral += qtd;
             }
 
+            // Monta string do relatório
             StringBuilder relatorio = new StringBuilder("Relatório de Tickets por Funcionário:\n\n");
             for (Map.Entry<String, Long> entry : totalPorUsuario.entrySet()) {
                 relatorio.append("Funcionário: ").append(entry.getKey())
@@ -346,6 +351,7 @@ public class MainWindow extends JFrame {
             }
             relatorio.append("\nTotal Geral no Período: ").append(totalGeral);
 
+            // Exibe
             JOptionPane.showMessageDialog(null, relatorio.toString());
 
         } catch (Exception e) {

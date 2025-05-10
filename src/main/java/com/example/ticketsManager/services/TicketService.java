@@ -2,6 +2,7 @@ package com.example.ticketsManager.services;
 
 
 import com.example.ticketsManager.dto.CreateTicketDTO;
+import com.example.ticketsManager.dto.RelatorioTicketDTO;
 import com.example.ticketsManager.dto.UpdateTicketDTO;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
@@ -16,11 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -112,8 +112,16 @@ public class TicketService {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o ticket: " + e.getMessage());
         }
         return null;
+
     }
-    public List<Ticket> listarTicketsAteData(LocalDateTime dataFim) {
-        return ticketRepository.buscarTicketsPorDataFim(dataFim);
+    public List<RelatorioTicketDTO> gerarRelatorio(LocalDateTime dataFim) {
+        List<Object[]> resultado = ticketRepository.relatorioTicketsPorPeriodo(dataFim);
+
+        return resultado.stream()
+                .map(linha -> new RelatorioTicketDTO(
+                        (String) linha[0],
+                        ((Number) linha[1]).longValue()
+                ))
+                .collect(Collectors.toList());
     }
 }
