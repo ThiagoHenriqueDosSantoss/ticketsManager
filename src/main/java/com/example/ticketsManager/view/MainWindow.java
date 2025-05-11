@@ -30,12 +30,14 @@ public class MainWindow extends JFrame {
         this.userController = userController;
         this.ticketController = ticketController;
 
+        ImageIcon iconeTicketManager = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-manager.png");
+
         // Configurações da janela principal
         setTitle("Tickets Manager");
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
+        setIconImage(iconeTicketManager.getImage());
         // Painel principal (vertical)
         JPanel painel = new JPanel();
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
@@ -52,13 +54,15 @@ public class MainWindow extends JFrame {
         ImageIcon iconeUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user.png");
         ImageIcon iconeTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket.png");
         ImageIcon iconeRelatorio = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\report.png");
+        ImageIcon iconePorta = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\door.png");
 
         // Botões
         JButton jbUser = new JButton("USUÁRIOS", iconeUser);
         JButton jbTickets = new JButton("TICKETS", iconeTicket);
         JButton jbRelatorio = new JButton("RELATÓRIO", iconeRelatorio);
+        JButton jbEncerrar = new JButton("ENCERRAR",iconePorta);
 
-        JButton[] botoes = {jbUser, jbTickets, jbRelatorio};
+        JButton[] botoes = {jbUser, jbTickets, jbRelatorio,jbEncerrar};
 
         for (JButton botao : botoes) {
             botao.setPreferredSize(new Dimension(200, 100));
@@ -96,7 +100,12 @@ public class MainWindow extends JFrame {
             this.setVisible(false);
             this.dispose();
         });
-
+        jbEncerrar.addActionListener(e -> {
+            int resposta = JOptionPane.showConfirmDialog(null, "Deseja encerrar o programa?", "Encerrar programa", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
         add(painel);
     }
 
