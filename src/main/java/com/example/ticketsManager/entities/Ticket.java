@@ -1,6 +1,6 @@
 package com.example.ticketsManager.entities;
 
-import com.example.ticketsManager.enums.UserSituation;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +17,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "iduser", nullable = false, referencedColumnName = "iduser")
     private User idUser;
+
 
     @Column(name = "quantidade", nullable = false)
     private Long quantidade;

@@ -5,6 +5,9 @@ import com.example.ticketsManager.controller.UserController;
 import com.example.ticketsManager.dto.TicketDTO.CreateTicketDTO;
 import com.example.ticketsManager.dto.TicketDTO.UpdateTicketDTO;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,10 +46,11 @@ public class Ticket extends JFrame {
         // Características dos botões
         JButton jbCriarTicket = new JButton(iconeAddTicket);
         JButton jbEditarTicket = new JButton(iconeEditTicket);
+        JButton jbListarTicket = new JButton("Listar Tickets");
         JButton jbVoltar = new JButton(iconeVoltar);
 
         // Adicionando os botões ao painel
-        JButton[] botoes = {jbCriarTicket, jbEditarTicket,jbVoltar};
+        JButton[] botoes = {jbCriarTicket, jbEditarTicket,jbListarTicket,jbVoltar};
 
         for (JButton botao : botoes) {
             botao.setPreferredSize(new Dimension(200, 100));
@@ -65,6 +69,7 @@ public class Ticket extends JFrame {
         }
         jbCriarTicket.addActionListener(e -> criarTicket());
         jbEditarTicket.addActionListener(e -> editarTicket());
+        jbListarTicket.addActionListener(e -> listarTickets());
         jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
             mainWindow.setVisible(true);
             this.setVisible(false);
@@ -164,5 +169,44 @@ public class Ticket extends JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o ticket: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+    }
+    public void listarTickets(){
+        List<com.example.ticketsManager.entities.Ticket> ticketList = ticketController.listTickets();
+
+        if (ticketList == null || ticketList.isEmpty()){
+            JOptionPane.showMessageDialog(null,"Nenhum ticket encontrado!");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        StringBuilder lista = new StringBuilder();
+
+        for (com.example.ticketsManager.entities.Ticket ticket : ticketList) {
+            lista.append("ID: ").append(ticket.getIdTicket()).append("\n");
+            lista.append("Data Criação Ticket: ").append(ticket.getDataEntregaTicket().format(formatter)).append("\n");
+
+            lista.append("Data Atualização Ticket: ");
+            if (ticket.getAtualizaoEntregaTicket() != null) {
+                lista.append(ticket.getAtualizaoEntregaTicket().format(formatter));
+            } else {
+                lista.append("N/A");
+            }
+            lista.append("\n");
+
+            lista.append("Quantidade: ").append(ticket.getQuantidade()).append("\n");
+
+            if (ticket.getUser() != null) {
+                lista.append("Usuário Vinculado: ").append(ticket.getUser().getNome()).append("\n");
+            } else {
+                lista.append("Usuário Vinculado: N/A\n");
+            }
+
+            lista.append("-------------------------\n");
+        }
+        JTextArea textArea = new JTextArea(lista.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
     }
 }

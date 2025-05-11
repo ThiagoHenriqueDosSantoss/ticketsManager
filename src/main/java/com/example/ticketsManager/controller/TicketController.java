@@ -52,4 +52,13 @@ public class TicketController {
             List<RelatorioTicketDTO> relatorio = ticketService.gerarRelatorio(dataFim);
         return ResponseEntity.ok(relatorio);
     }
+    public List<Ticket> listTickets(){
+        try {
+            List<Ticket> ticketList = ticketService.listTickets();
+            return ticketList;
+        } catch (Exception e) {
+            logger.severe("ERRO: Falha ao listar tickets no controller!");
+        }
+        return null;
+    }
 }

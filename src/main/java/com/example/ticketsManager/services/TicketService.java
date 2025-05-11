@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -122,5 +123,14 @@ public class TicketService {
                         ((Number) linha[1]).longValue()
                 ))
                 .collect(Collectors.toList());
+    }
+    public List<Ticket> listTickets() {
+        try {
+            List<Ticket> ticketList = ticketRepository.findAll();
+            return ticketList != null ? ticketList : Collections.emptyList();
+        } catch (Exception e) {
+            logger.severe("ERRO: Falha ao listar tickets no services!");
+            return Collections.emptyList(); // <- evita o NullPointerException
+        }
     }
 }
