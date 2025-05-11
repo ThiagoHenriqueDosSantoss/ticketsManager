@@ -41,12 +41,13 @@ public class Ticket extends JFrame {
 
         ImageIcon iconeAddTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\add-ticket.png");
         ImageIcon iconeEditTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\edit-ticket.png");
+        ImageIcon iconeListTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-list.png");
         ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
 
         // Características dos botões
         JButton jbCriarTicket = new JButton(iconeAddTicket);
         JButton jbEditarTicket = new JButton(iconeEditTicket);
-        JButton jbListarTicket = new JButton("Listar Tickets");
+        JButton jbListarTicket = new JButton(iconeListTicket);
         JButton jbVoltar = new JButton(iconeVoltar);
 
         // Adicionando os botões ao painel
