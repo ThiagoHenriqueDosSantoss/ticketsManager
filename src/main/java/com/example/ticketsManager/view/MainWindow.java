@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 
         // Característica do JFrame
         setTitle("Tickets Manager");
-        setSize(700, 500);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -37,20 +37,24 @@ public class MainWindow extends JFrame {
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); // Layout vertical
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Características dos botões
-        JButton jbUser = new JButton("Usuarios");
-        JButton jbTickets = new JButton("Tickets");
-        JButton jbRelatorio = new JButton("Relatório");
+        //Icone dos botoes
+        ImageIcon iconeUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user.png");
+        ImageIcon iconeTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket.png");
+        ImageIcon iconeRelatorio = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\report.png");
 
+        // Características dos botões
+        JButton jbUser = new JButton(iconeUser);
+        JButton jbTickets = new JButton(iconeTicket);
+        JButton jbRelatorio = new JButton(iconeRelatorio);
         // Adicionando os botões ao painel
         JButton[] botoes = {jbUser,jbTickets,jbRelatorio};
 
         for (JButton botao: botoes){
             botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
+            botao.setAlignmentY(Component.CENTER_ALIGNMENT);
             botao.setMaximumSize(new Dimension(200, 100)); // Tamanho máximo
             botao.setMinimumSize(new Dimension(100, 100)); // Tamanho mínimo
             botao.setFont(new Font("Arial", Font.BOLD, 16));
-
             botao.setFocusPainted(false); // Tira o foco feio quando clica
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             painel.add(botao); // Adiciona os botões ao JPanel
@@ -60,10 +64,14 @@ public class MainWindow extends JFrame {
         jbUser.addActionListener(e -> {
             Usuario usuario = new Usuario(this,userController,ticketController);
             usuario.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         });
         jbTickets.addActionListener(e ->{
             Ticket ticket = new Ticket(this,userController,ticketController);
             ticket.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         });
 
         add(painel);

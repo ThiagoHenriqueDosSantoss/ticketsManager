@@ -52,6 +52,8 @@ public class Ticket extends JFrame {
         jbEditarTicket.addActionListener(e -> editarTicket());
         jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
             mainWindow.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         });
 
         add(painel);

@@ -30,11 +30,16 @@ public class Usuario extends JFrame {
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); // Layout vertical
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        ImageIcon iconeAddUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-add.png");
+        ImageIcon iconeEditUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-edit.png");
+        ImageIcon iconeListUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-list.png");
+        ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
+
         // Características dos botões
-        JButton jbCriarUsuarios = new JButton("Criar Usuário");
-        JButton jbEditarUsuario = new JButton("Editar Usuário");
-        JButton jbListarUsuario= new JButton("Listar Usuário");
-        JButton jbVoltar = new JButton("Voltar");
+        JButton jbCriarUsuarios = new JButton(iconeAddUser);
+        JButton jbEditarUsuario = new JButton(iconeEditUser);
+        JButton jbListarUsuario= new JButton(iconeListUser);
+        JButton jbVoltar = new JButton(iconeVoltar);
 
         // Adicionando os botões ao painel
         JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbListarUsuario,jbVoltar};
@@ -56,6 +61,8 @@ public class Usuario extends JFrame {
 
         jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
             mainWindow.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         });
 
         add(painel);
