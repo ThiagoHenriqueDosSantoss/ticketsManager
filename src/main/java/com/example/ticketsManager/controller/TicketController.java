@@ -1,8 +1,8 @@
 package com.example.ticketsManager.controller;
 
-import com.example.ticketsManager.dto.CreateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.CreateTicketDTO;
 import com.example.ticketsManager.dto.RelatorioTicketDTO;
-import com.example.ticketsManager.dto.UpdateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.UpdateTicketDTO;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.repository.UserRepository;
 import com.example.ticketsManager.services.TicketService;

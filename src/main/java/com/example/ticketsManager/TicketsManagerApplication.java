@@ -28,6 +28,7 @@ public class TicketsManagerApplication {
 			MainWindow mainWindow = new MainWindow(userController,ticketController);
 			mainWindow.setVisible(true);
 		});
+
 	}
 
 }

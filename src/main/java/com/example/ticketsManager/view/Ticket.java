@@ -2,8 +2,8 @@ package com.example.ticketsManager.view;
 
 import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
-import com.example.ticketsManager.dto.CreateTicketDTO;
-import com.example.ticketsManager.dto.UpdateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.CreateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.UpdateTicketDTO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,35 +18,50 @@ public class Ticket extends JFrame {
         this.userController = new UserController();
         this.ticketController = ticketController;
 
-        // Característica do JFrame
+        // Configurações da janela principal
         setTitle("Tickets Manager");
-        setSize(700, 500);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Característica do JPanel
+        // Painel principal (vertical)
         JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); // Layout vertical
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        painel.setBackground(Color.LIGHT_GRAY);
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Painel de botões (horizontal)
+        JPanel painelBotoes = new JPanel();
+        painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.LINE_AXIS));
+        painelBotoes.setBackground(Color.LIGHT_GRAY);
+        painelBotoes.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ImageIcon iconeAddTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\add-ticket.png");
+        ImageIcon iconeEditTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\edit-ticket.png");
+        ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
+
         // Características dos botões
-        JButton jbCriarTicket = new JButton("Criar Ticket");
-        JButton jbEditarTicket = new JButton("Editar Ticket");
-        JButton jbVoltar = new JButton("Voltar");
+        JButton jbCriarTicket = new JButton(iconeAddTicket);
+        JButton jbEditarTicket = new JButton(iconeEditTicket);
+        JButton jbVoltar = new JButton(iconeVoltar);
 
         // Adicionando os botões ao painel
         JButton[] botoes = {jbCriarTicket, jbEditarTicket,jbVoltar};
 
         for (JButton botao : botoes) {
-            botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
-            botao.setMaximumSize(new Dimension(200, 100)); // Tamanho máximo
-            botao.setMinimumSize(new Dimension(100, 100)); // Tamanho mínimo
-            botao.setFont(new Font("Arial", Font.BOLD, 16));
+            botao.setPreferredSize(new Dimension(200, 100));
+            botao.setMaximumSize(new Dimension(200, 100));
+            botao.setMinimumSize(new Dimension(100, 100));
 
-            botao.setFocusPainted(false); // Tira o foco feio quando clica
+            botao.setFont(new Font("Arial", Font.BOLD, 14));
+            botao.setFocusPainted(false);
+            botao.setBackground(new Color(249, 249, 249));
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            painel.add(botao); // Adiciona os botões ao JPanel
-            painel.add(Box.createVerticalStrut(25)); // Espaçamento vertical
+            botao.setOpaque(true);
+            botao.setContentAreaFilled(true);
+
+            painelBotoes.add(Box.createHorizontalStrut(15));
+            painelBotoes.add(botao);
         }
         jbCriarTicket.addActionListener(e -> criarTicket());
         jbEditarTicket.addActionListener(e -> editarTicket());
@@ -55,6 +70,10 @@ public class Ticket extends JFrame {
             this.setVisible(false);
             this.dispose();
         });
+
+        painel.add(Box.createVerticalGlue());
+        painel.add(painelBotoes);
+        painel.add(Box.createVerticalGlue());
 
         add(painel);
     }

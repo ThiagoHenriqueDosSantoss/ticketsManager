@@ -1,6 +1,5 @@
-package com.example.ticketsManager.dto;
+package com.example.ticketsManager.dto.TicketDTO;
 
-import com.example.ticketsManager.entities.User;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;

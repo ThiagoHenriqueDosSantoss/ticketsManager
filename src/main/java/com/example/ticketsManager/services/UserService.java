@@ -1,7 +1,7 @@
 package com.example.ticketsManager.services;
 
-import com.example.ticketsManager.dto.CreateUserDTO;
-import com.example.ticketsManager.dto.UpdateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.CreateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
 import com.example.ticketsManager.repository.UserRepository;
 import org.apache.coyote.BadRequestException;
@@ -137,7 +137,7 @@ public class UserService {
     }
     public List<User> listUser(){
         try{
-            List<User> userList = userRepository.findAll();
+            List<User> userList = userRepository.listarUsuarios();
             return userList;
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao listar usuario no services!");

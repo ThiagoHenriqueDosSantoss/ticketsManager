@@ -1,19 +1,15 @@
 package com.example.ticketsManager.controller;
 
-import com.example.ticketsManager.dto.CreateUserDTO;
-import com.example.ticketsManager.dto.UpdateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.CreateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
-import com.example.ticketsManager.repository.UserRepository;
 import com.example.ticketsManager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController

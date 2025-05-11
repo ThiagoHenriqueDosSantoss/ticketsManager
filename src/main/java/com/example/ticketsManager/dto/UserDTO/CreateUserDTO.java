@@ -1,15 +1,8 @@
-package com.example.ticketsManager.dto;
+package com.example.ticketsManager.dto.UserDTO;
 
-import com.example.ticketsManager.enums.UserSituation;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class CreateUserDTO {
 

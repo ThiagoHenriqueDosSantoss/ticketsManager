@@ -1,9 +1,9 @@
 package com.example.ticketsManager.services;
 
 
-import com.example.ticketsManager.dto.CreateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.CreateTicketDTO;
 import com.example.ticketsManager.dto.RelatorioTicketDTO;
-import com.example.ticketsManager.dto.UpdateTicketDTO;
+import com.example.ticketsManager.dto.TicketDTO.UpdateTicketDTO;
 import com.example.ticketsManager.entities.Ticket;
 import com.example.ticketsManager.entities.User;
 import com.example.ticketsManager.repository.TicketRepository;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

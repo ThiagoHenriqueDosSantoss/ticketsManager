@@ -2,12 +2,13 @@ package com.example.ticketsManager.view;
 
 import com.example.ticketsManager.controller.TicketController;
 import com.example.ticketsManager.controller.UserController;
-import com.example.ticketsManager.dto.CreateUserDTO;
-import com.example.ticketsManager.dto.UpdateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.CreateUserDTO;
+import com.example.ticketsManager.dto.UserDTO.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Usuario extends JFrame {
@@ -19,52 +20,72 @@ public class Usuario extends JFrame {
     public Usuario(MainWindow mainWindow, UserController userController, TicketController ticketController){
         this.userController = userController;
 
-        // Característica do JFrame
+        // Configurações da janela principal
         setTitle("Tickets Manager");
-        setSize(700, 500);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Característica do JPanel
+        // Painel principal (vertical)
         JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); // Layout vertical
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        painel.setBackground(Color.LIGHT_GRAY);
         painel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Painel de botões (horizontal)
+        JPanel painelBotoes = new JPanel();
+        painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.LINE_AXIS));
+        painelBotoes.setBackground(Color.LIGHT_GRAY);
+        painelBotoes.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Ícones
         ImageIcon iconeAddUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-add.png");
         ImageIcon iconeEditUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-edit.png");
         ImageIcon iconeListUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-list.png");
         ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
 
-        // Características dos botões
+        // Botões
         JButton jbCriarUsuarios = new JButton(iconeAddUser);
         JButton jbEditarUsuario = new JButton(iconeEditUser);
-        JButton jbListarUsuario= new JButton(iconeListUser);
+        JButton jbListarUsuario = new JButton(iconeListUser);
         JButton jbVoltar = new JButton(iconeVoltar);
 
-        // Adicionando os botões ao painel
-        JButton[] botoes = {jbCriarUsuarios,jbEditarUsuario,jbListarUsuario,jbVoltar};
+        JButton[] botoes = {jbCriarUsuarios, jbEditarUsuario, jbListarUsuario, jbVoltar};
 
-        for (JButton botao: botoes){
-            botao.setAlignmentX(Component.LEFT_ALIGNMENT); // Centraliza os botões
-            botao.setMaximumSize(new Dimension(200, 100)); // Tamanho máximo
-            botao.setMinimumSize(new Dimension(100, 100)); // Tamanho mínimo
+        for (JButton botao : botoes) {
+            botao.setPreferredSize(new Dimension(200, 100));
+            botao.setMaximumSize(new Dimension(200, 100));
+            botao.setMinimumSize(new Dimension(100, 100));
+
             botao.setFont(new Font("Arial", Font.BOLD, 16));
-
-            botao.setFocusPainted(false); // Tira o foco feio quando clica
+            botao.setFocusPainted(false);
+            botao.setBackground(new Color(249, 249, 249));
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            painel.add(botao); // Adiciona os botões ao JPanel
-            painel.add(Box.createVerticalStrut(25)); // Espaçamento vertical
+            botao.setOpaque(true);
+            botao.setContentAreaFilled(true);
+
+            painelBotoes.add(Box.createHorizontalStrut(15)); // Espaço entre os botões
+            painelBotoes.add(botao);
         }
-        jbCriarUsuarios.addActionListener(e ->adicionarUsuário());
+
+        // Ações dos botões
+        jbCriarUsuarios.addActionListener(e -> adicionarUsuário());
         jbListarUsuario.addActionListener(e -> listarUsuario());
         jbEditarUsuario.addActionListener(e -> editarUsuario());
 
-        jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
-            mainWindow.setVisible(true);
+        jbVoltar.addActionListener(e -> {
+            MainWindow mainWindow1 = new MainWindow(userController, ticketController);
+            mainWindow1.setVisible(true);
             this.setVisible(false);
             this.dispose();
         });
 
+        // Organização no painel principal
+        painel.add(Box.createVerticalGlue());
+        painel.add(painelBotoes);
+        painel.add(Box.createVerticalGlue());
+
+        // Adiciona ao JFrame
         add(painel);
 
     }
@@ -206,13 +227,23 @@ public class Usuario extends JFrame {
             JOptionPane.showMessageDialog(null, "Nenhum usuário encontrado.");
             return;
         }
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         StringBuilder lista = new StringBuilder();
+
         for (User user : usuarios) {
             lista.append("ID: ").append(user.getIdUser()).append("\n");
             lista.append("Nome: ").append(user.getNome()).append("\n");
             lista.append("CPF: ").append(user.getCpf()).append("\n");
             lista.append("Situação: ").append(user.getSituacaoUsuario()).append("\n");
+            lista.append("Data Criação: ").append(user.getDataCriacao().format(formatter)).append("\n");
+
+            lista.append("Data Atualização: ");
+            if (user.getDataAlteracao() != null) { //verifica se a data é null, para evitar nullpointer
+                lista.append(user.getDataAlteracao().format(formatter));
+            } else {
+                lista.append("N/A");
+            }
+            lista.append("\n");
             lista.append("-------------------------\n");
         }
 
