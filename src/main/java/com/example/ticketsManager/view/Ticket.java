@@ -183,6 +183,7 @@ public class Ticket extends JFrame {
 
         for (com.example.ticketsManager.entities.Ticket ticket : ticketList) {
             lista.append("ID: ").append(ticket.getIdTicket()).append("\n");
+            lista.append("Numero Ticket: ").append(ticket.getNumTicket()).append("\n");
             lista.append("Data Criação Ticket: ").append(ticket.getDataEntregaTicket().format(formatter)).append("\n");
 
             lista.append("Data Atualização Ticket: ");

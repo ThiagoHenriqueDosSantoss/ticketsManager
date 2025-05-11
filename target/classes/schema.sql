@@ -9,10 +9,12 @@ CREATE TABLE IF NOT EXISTS tb_user (
 
 CREATE TABLE IF NOT EXISTS tb_ticket (
     idTicket SERIAL PRIMARY KEY,
+    numTicket INT NOT NULL,
     dataEntregaTicket TIMESTAMP DEFAULT NOW(),
     atualizacaoEntregaTicket TIMESTAMP DEFAULT NOW(),
     quantidade INT NOT NULL,
     idUser INT,
 
-    CONSTRAINT fk_user FOREIGN KEY (idUser) REFERENCES tb_user(iduser)
+    CONSTRAINT fk_user FOREIGN KEY (idUser) REFERENCES tb_user(iduser),
+    CONSTRAINT chk_numTicket_pos CHECK(numTicket > 0)
 );

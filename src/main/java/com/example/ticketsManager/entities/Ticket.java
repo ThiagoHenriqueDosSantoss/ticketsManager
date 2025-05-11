@@ -18,6 +18,8 @@ public class Ticket {
     @JoinColumn(name = "iduser", nullable = false, referencedColumnName = "iduser")
     private User idUser;
 
+    @Column(name = "numticket")
+    private Long numTicket;
 
     @Column(name = "quantidade", nullable = false)
     private Long quantidade;
@@ -72,4 +74,11 @@ public class Ticket {
         this.atualizaoEntregaTicket = atualizaoEntregaTicket;
     }
 
+    public Long getNumTicket() {
+        return numTicket;
+    }
+
+    public void setNumTicket(Long numTicket) {
+        this.numTicket = numTicket;
+    }
 }

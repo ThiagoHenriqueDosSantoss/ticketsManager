@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,9 @@ public class TicketService {
 
                 LocalDateTime now = LocalDateTime.now();
                 ticket.setDataEntregaTicket(now);
+                Random random = new Random();
+                Long numTicket = random.nextLong(1000);
+                ticket.setNumTicket(numTicket);
 
                 if (!"A".equals(user.getSituacaoUsuario())) {
                     JOptionPane.showMessageDialog(null,"Não é possível criar um ticket para um usuário inativo.");
