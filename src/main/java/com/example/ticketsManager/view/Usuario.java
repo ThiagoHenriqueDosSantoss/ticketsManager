@@ -19,12 +19,14 @@ public class Usuario extends JFrame {
 
     public Usuario(MainWindow mainWindow, UserController userController, TicketController ticketController){
         this.userController = userController;
+        ImageIcon iconeTicketManager = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-manager.png");
 
         // Configurações da janela principal
         setTitle("Tickets Manager");
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setIconImage(iconeTicketManager.getImage());
 
         // Painel principal (vertical)
         JPanel painel = new JPanel();
@@ -164,7 +166,7 @@ public class Usuario extends JFrame {
         // Botão Voltar
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.addActionListener(e -> {
-            frame.dispose(); // Fecha a tela atual e volta à tela anterior
+            frame.dispose();
         });
 
         botoesPanel.add(btnSalvar);

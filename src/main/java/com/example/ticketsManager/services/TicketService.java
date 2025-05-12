@@ -38,7 +38,6 @@ public class TicketService {
     public Ticket createTicket(CreateTicketDTO dto){
         try {
             Ticket ticket = new Ticket();
-            try{
 
                 if (dto.getIdUser() == null) {
                     JOptionPane.showMessageDialog(null,"Informe o id do usuario que se vinculará ao ticket!");
@@ -51,11 +50,14 @@ public class TicketService {
                 if (dto.getQuantidade() == null || dto.getQuantidade() <= 0) {
                     JOptionPane.showMessageDialog(null,"Informe uma quantidade válida de tickets!");
                     throw new BadRequestException("Informe uma quantidade válida de tickets!");
+                }else{
+                    ticket.setQuantidade(dto.getQuantidade());
                 }
-                ticket.setQuantidade(dto.getQuantidade());
 
                 LocalDateTime now = LocalDateTime.now();
                 ticket.setDataEntregaTicket(now);
+
+                //Gera um numero aleatório para o ticket
                 Random random = new Random();
                 Long numTicket = random.nextLong(1000);
                 ticket.setNumTicket(numTicket);
@@ -67,25 +69,25 @@ public class TicketService {
 
                 JOptionPane.showMessageDialog(null, "Ticket criado com sucesso!");
                 return ticketRepository.save(ticket);
-            }catch (BadRequestException e){
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
-            }
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao criar um ticket no services!" + e.getMessage());
         }
         return null;
     }
+
     @Transactional
     public Ticket updateTicket(Long idTicket, UpdateTicketDTO dto) {
         try {
             Optional<Ticket> optionalTicket = ticketRepository.findById(idTicket);
 
+            //Valida se o ticket existe
             if (optionalTicket.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "O ticket informado não foi encontrado!");
                 return null;
             }
             Ticket ticket = optionalTicket.get();
 
+            //Verifica sobre o usuario
             if (dto.getIdUser() != null) {
                 User user = userRepository.findById(dto.getIdUser()).orElse(null);
                 if (user == null) {
@@ -93,12 +95,14 @@ public class TicketService {
                     return null;
                 }
                 if (!"A".equals(user.getSituacaoUsuario())) {
-                    JOptionPane.showMessageDialog(null, "Usuário inativo. Não é possível atualizar o ticket.");
+                    JOptionPane.showMessageDialog(null, "Usuário inativo. Não é possível vincular o ticket a ele.");
                     return null;
+                }else{
+                    ticket.setUser(user);
                 }
-                ticket.setUser(user);
             }
 
+            //Verifica a quantidade
             if (dto.getQuantidade() != null) {
                 if (dto.getQuantidade() <= 0) {
                     JOptionPane.showMessageDialog(null, "Informe uma quantidade maior que zero!");
@@ -118,6 +122,7 @@ public class TicketService {
         return null;
 
     }
+
     public List<RelatorioTicketDTO> gerarRelatorio(LocalDateTime dataFim) {
         List<Object[]> resultado = ticketRepository.relatorioTicketsPorPeriodo(dataFim);
 
@@ -128,6 +133,7 @@ public class TicketService {
                 ))
                 .collect(Collectors.toList());
     }
+
     public List<Ticket> listTickets() {
         try {
             List<Ticket> ticketList = ticketRepository.findAll();

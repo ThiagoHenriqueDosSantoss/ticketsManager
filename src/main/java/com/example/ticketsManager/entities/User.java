@@ -1,12 +1,9 @@
 package com.example.ticketsManager.entities;
 
-import com.example.ticketsManager.enums.UserSituation;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")

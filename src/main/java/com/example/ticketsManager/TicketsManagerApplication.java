@@ -25,8 +25,8 @@ public class TicketsManagerApplication {
 		TicketController ticketController = context.getBean(TicketController.class);
 
 		SwingUtilities.invokeLater(() -> {
-			MainWindow mainWindow = new MainWindow(userController,ticketController);
-			mainWindow.setVisible(true);
+			MainWindow mw = new MainWindow(userController,ticketController);
+			mw.setVisible(true);
 		});
 
 	}

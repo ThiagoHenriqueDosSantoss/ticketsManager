@@ -27,14 +27,16 @@ public class UserService {
         try {
             User users = new User();
             //Validar campo do nome
-            try {
                 if (dto.getNome() == null || dto.getNome().isBlank()) {
+                    JOptionPane.showMessageDialog(null,"O campo nome é obrigatório!");
                     throw new BadRequestException("O campo nome é obrigatório!");
                 } else {
                     if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
+                        JOptionPane.showMessageDialog(null,"O nome deve conter entre 3 e 30 caracteres!");
                         throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
                     } else {
                         if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                            JOptionPane.showMessageDialog(null,"O nome não pode conter caracteres especiais!");
                             throw new BadRequestException("O nome não pode conter caracteres especiais!");
                         } else {
                             users.setNome(dto.getNome());
@@ -45,12 +47,15 @@ public class UserService {
                 //Validar campo do cpf
 
                 if (dto.getCpf() == null || dto.getCpf().isBlank()) {
+                    JOptionPane.showMessageDialog(null,"O campo cpf é obrigatório!");
                     throw new BadRequestException("O campo cpf é obrigatório!");
                 } else {
                     if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                        JOptionPane.showMessageDialog(null,"O cpf informado é inválido!");
                         throw new BadRequestException("O cpf informado é inválido!");
                     } else {
                         if (userRepository.validaCpf(dto.getCpf())) {
+                            JOptionPane.showMessageDialog(null,"O cpf informado já existe!");
                             throw new BadRequestException("O cpf informado já existe!");
                         } else {
                             users.setCpf(dto.getCpf());
@@ -60,9 +65,11 @@ public class UserService {
 
                 //Validar campo da situação do usuario
                 if (dto.getSituacaoUsuario() == null) {
+                    JOptionPane.showMessageDialog(null,"A situação do usuário é obrigatória!");
                     throw new BadRequestException("A situação do usuário é obrigatória!");
                 } else {
                     if (!"A".equals(dto.getSituacaoUsuario())) {
+                        JOptionPane.showMessageDialog(null,"Ao criar usuário a situação não pode ser diferente de A - Ativa!");
                         throw new BadRequestException("Ao criar usuário a situação não pode ser diferente de A - Ativa!");
                     } else {
                         users.setSituacaoUsuario(dto.getSituacaoUsuario());
@@ -74,43 +81,51 @@ public class UserService {
                 JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
 
                 return userRepository.save(users);
-            } catch (BadRequestException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
-            }
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao criar usuario no services!");
             throw new RuntimeException(e);
         }
-        return null;
     }
     public User updateUser(Long idUser, UpdateUserDTO dto){
         try {
             Optional<User> userOptional = userRepository.findById(idUser);
-            try {
+                //Valida se o usuario existe
                 if (userOptional.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,"O id informado não foi encontrado!");
                     throw new BadRequestException("O id informado não foi encontrado!");
                 }
                 User users = userOptional.get();
+
+                //Valida o nome caso queira alterar
                 if (dto.getNome() != null && !dto.getNome().isBlank()) {
                     if (dto.getNome().length() < 3 || dto.getNome().length() > 30) {
+                        JOptionPane.showMessageDialog(null,"O nome deve conter entre 3 e 30 caracteres!");
                         throw new BadRequestException("O nome deve conter entre 3 e 30 caracteres!");
+                    }else{
+                        if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                            JOptionPane.showMessageDialog(null,"O nome não pode conter caracteres especiais ou números!");
+                            throw new BadRequestException("O nome não pode conter caracteres especiais ou números!");
+                        }else{
+                            users.setNome(dto.getNome());
+                        }
                     }
-                    if (!dto.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
-                        throw new BadRequestException("O nome não pode conter caracteres especiais ou números!");
-                    }
-                    users.setNome(dto.getNome());
                 }
-
+                //Valida o cpf caso queira alterar
                 if (dto.getCpf() != null && !dto.getCpf().isBlank()) {
                     if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                        JOptionPane.showMessageDialog(null,"O CPF informado é inválido!");
                         throw new BadRequestException("O CPF informado é inválido!");
+                    }else{
+                        if (userRepository.validaCpf(dto.getCpf())) {
+                            JOptionPane.showMessageDialog(null,"O CPF informado já existe!");
+                            throw new BadRequestException("O CPF informado já existe!");
+                        }else{
+                            users.setCpf(dto.getCpf());
+                        }
                     }
-                    if (userRepository.validaCpf(dto.getCpf())) {
-                        throw new BadRequestException("O CPF informado já existe!");
-                    }
-                    users.setCpf(dto.getCpf());
                 }
 
+                //Verifica a situação caso queira alterar
                 if (dto.getSituacaoUsuario() != null) {
                     users.setSituacaoUsuario(dto.getSituacaoUsuario());
                 } else {
@@ -126,14 +141,10 @@ public class UserService {
 
                 JOptionPane.showMessageDialog(null, "Usuário atualizado com sucesso!");
                 return userRepository.save(users);
-            }catch (BadRequestException e){
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
-            }
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao atualizar usuario no services!");
             throw new RuntimeException(e);
         }
-        return null;
     }
     public List<User> listUser(){
         try{
