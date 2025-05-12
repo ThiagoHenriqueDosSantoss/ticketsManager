@@ -29,7 +29,7 @@ O sistema permite ao usuário visualizar o total de tickets entregues no geral e
    O sistema utiliza o PostgreSQL na versão 17 como banco de dados. Você deve ter o PostgreSQL instalado e configurado corretamente, com as credenciais de acesso apropriadas.
 
 ### 3. **Maven**
-   O Maven é usado como ferramenta de construção (build tool). Para compilar e executar a aplicação, é necessário ter o Maven instalado na sua máquina ou alguma IDE com integração nativa com o Maven (IntelliJ, Eclipse IDE Apache NetBeans, VS Code (Visual Studio Code) com extensões Maven for Java (da Microsoft/Red Hat) e Java Extension Pack).
+   O Maven é usado como ferramenta de construção (build tool). Para compilar e executar a aplicação, é necessário ter o Maven instalado na sua máquina ou alguma IDE com integração nativa com o Maven (IntelliJ, Eclipse IDE, Apache NetBeans, VS Code (Visual Studio Code) com extensões Maven for Java (da Microsoft/Red Hat) e Java Extension Pack).
 
 ### 4. **Configuração do Banco de Dados**
 
