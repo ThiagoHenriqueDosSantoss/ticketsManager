@@ -16,7 +16,8 @@ O sistema permite ao usuário visualizar o total de tickets entregues no geral e
 - **Java Swing** — utilizado como biblioteca para o desenvolvimento da interface gráfica da aplicação
 
 ### Banco de Dados 💾 
-- **PostgreSQL**: O sistema usa o PostgreSQL como banco de dados, configurado com a dependência `postgresql` para ser executado em tempo de execução.
+- **PostgreSQL**: O sistema usa o PostgreSQL como banco de dados, configurado com a dependência `postgresql` para ser executado em tempo de execução, toda a configuração e conexão com o banco de dados
+   é realizada atraves do arquivo `applicatio.properties`, ao rodar o projeto a criação das tabelas é automatica realizada por meio do arquivo `schema.sql`.
 
 
 ## 💻 Como executar o projeto
