@@ -50,7 +50,7 @@ public class UserService {
                     JOptionPane.showMessageDialog(null,"O campo cpf é obrigatório!");
                     throw new BadRequestException("O campo cpf é obrigatório!");
                 } else {
-                    if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                    if (!dto.getCpf().matches("^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
                         JOptionPane.showMessageDialog(null,"O cpf informado é inválido!");
                         throw new BadRequestException("O cpf informado é inválido!");
                     } else {
@@ -112,7 +112,7 @@ public class UserService {
                 }
                 //Valida o cpf caso queira alterar
                 if (dto.getCpf() != null && !dto.getCpf().isBlank()) {
-                    if (!dto.getCpf().matches("^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
+                    if (!dto.getCpf().matches("^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$")) {
                         JOptionPane.showMessageDialog(null,"O CPF informado é inválido!");
                         throw new BadRequestException("O CPF informado é inválido!");
                     }else{

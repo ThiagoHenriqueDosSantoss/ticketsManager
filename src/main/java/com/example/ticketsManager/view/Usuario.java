@@ -7,6 +7,7 @@ import com.example.ticketsManager.dto.UserDTO.UpdateUserDTO;
 import com.example.ticketsManager.entities.User;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -91,6 +92,7 @@ public class Usuario extends JFrame {
 
     }
     public void createUser() {
+        try {
         // Criar o JFrame
         JFrame frame = new JFrame("Tickets Manager");
         frame.setSize(700, 500); // Tamanho fixo
@@ -112,12 +114,15 @@ public class Usuario extends JFrame {
         painel.add(textNome, gbc);
 
         // CPF
-        gbc.gridx = 0;
-        gbc.gridy++;
-        painel.add(new JLabel("CPF:"), gbc);
-        gbc.gridx = 2;
-        JTextField textCpf = new JTextField(20);
-        painel.add(textCpf, gbc);
+            MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
+            cpfMask.setPlaceholderCharacter('_');
+            gbc.gridx = 0;
+            gbc.gridy++;
+            painel.add(new JLabel("CPF:"), gbc);
+            gbc.gridx = 2;
+            JFormattedTextField textCpf = new JFormattedTextField(cpfMask);
+            painel.add(textCpf, gbc);
+
 
         // Status
         gbc.gridx = 0;
@@ -175,84 +180,108 @@ public class Usuario extends JFrame {
 
         frame.add(painel);
         frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void updateUser() {
-        String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário a editar:");
-        if (idStr == null || !idStr.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "ID inválido!");
-            return;
-        }
-        Long id = Long.parseLong(idStr);
+        try {
+            String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário a editar:");
+            if (idStr == null || !idStr.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "ID inválido!");
+                return;
+            }
+            Long id = Long.parseLong(idStr);
 
-        String nome = null;
-        String cpf = null;
-        String status = null;
+            String nome = null;
+            String cpf = null;
+            String status = null;
 
-        int opcaoNome = JOptionPane.showConfirmDialog(null, "Deseja informar o nome do usuário?", "Nome", JOptionPane.YES_NO_OPTION);
-        if (opcaoNome == JOptionPane.YES_OPTION) {
-            nome = JOptionPane.showInputDialog("Informe o nome completo:");
-            while (nome == null || nome.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nome é obrigatório.");
+            int opcaoNome = JOptionPane.showConfirmDialog(null, "Deseja informar o nome do usuário?", "Nome", JOptionPane.YES_NO_OPTION);
+            if (opcaoNome == JOptionPane.YES_OPTION) {
                 nome = JOptionPane.showInputDialog("Informe o nome completo:");
+                while (nome == null || nome.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Nome é obrigatório.");
+                    nome = JOptionPane.showInputDialog("Informe o nome completo:");
+                }
             }
-        }
 
 
-        int opcaoCpf = JOptionPane.showConfirmDialog(null, "Deseja informar o CPF do usuário?", "CPF", JOptionPane.YES_NO_OPTION);
-        if (opcaoCpf == JOptionPane.YES_OPTION) {
-            cpf = JOptionPane.showInputDialog("Informe o CPF:");
-            while (cpf == null || cpf.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "CPF é obrigatório.");
-                cpf = JOptionPane.showInputDialog("Informe o CPF:");
+
+
+            int opcaoCpf = JOptionPane.showConfirmDialog(null, "Deseja informar o CPF do usuário?", "CPF", JOptionPane.YES_NO_OPTION);
+
+            if (opcaoCpf == JOptionPane.YES_OPTION) {
+                MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
+                cpfMask.setPlaceholderCharacter('_');
+                JFormattedTextField cpfField = new JFormattedTextField(cpfMask);
+
+                int resultado = JOptionPane.showConfirmDialog(null, cpfField, "Informe o CPF:", JOptionPane.OK_CANCEL_OPTION);
+
+                while (resultado == JOptionPane.OK_OPTION && cpfField.getText().contains("_")) {
+                    JOptionPane.showMessageDialog(null, "CPF é obrigatório e deve estar completo.");
+                    resultado = JOptionPane.showConfirmDialog(null, cpfField, "Informe o CPF:", JOptionPane.OK_CANCEL_OPTION);
+                }
+
+                if (resultado == JOptionPane.OK_OPTION) {
+                    cpf = cpfField.getText();
+                    System.out.println("CPF informado: " + cpf);
+                }
             }
+
+            int opcaoStatus = JOptionPane.showConfirmDialog(null, "Deseja informar a situação do usuário (A/I)?", "Situação", JOptionPane.YES_NO_OPTION);
+            if (opcaoStatus == JOptionPane.YES_OPTION) {
+                String[] opcoesStatus = {"A", "I"};
+                status = (String) JOptionPane.showInputDialog(null, "Selecione a situação do usuário:", "Situação",
+                        JOptionPane.QUESTION_MESSAGE, null, opcoesStatus, opcoesStatus[0]);
+            }
+
+            UpdateUserDTO dto = new UpdateUserDTO();
+            dto.setNome(nome);
+            dto.setCpf(cpf);
+            dto.setSituacaoUsuario(status);
+
+            userController.updateUser(id, dto);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        int opcaoStatus = JOptionPane.showConfirmDialog(null, "Deseja informar a situação do usuário (A/I)?", "Situação", JOptionPane.YES_NO_OPTION);
-        if (opcaoStatus == JOptionPane.YES_OPTION) {
-            String[] opcoesStatus = {"A", "I"};
-            status = (String) JOptionPane.showInputDialog(null, "Selecione a situação do usuário:", "Situação",
-                    JOptionPane.QUESTION_MESSAGE, null, opcoesStatus, opcoesStatus[0]);
-        }
-
-        UpdateUserDTO dto = new UpdateUserDTO();
-        dto.setNome(nome);
-        dto.setCpf(cpf);
-        dto.setSituacaoUsuario(status);
-
-        userController.updateUser(id,dto);
     }
     public void listUser() {
-        List<User> usuarios = userController.listUser();
+        try {
+            List<User> usuarios = userController.listUser();
 
-        if (usuarios == null || usuarios.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum usuário encontrado.");
-            return;
-        }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        StringBuilder lista = new StringBuilder();
-
-        for (User user : usuarios) {
-            lista.append("ID: ").append(user.getIdUser()).append("\n");
-            lista.append("Nome: ").append(user.getNome()).append("\n");
-            lista.append("CPF: ").append(user.getCpf()).append("\n");
-            lista.append("Situação: ").append(user.getSituacaoUsuario()).append("\n");
-            lista.append("Data Criação: ").append(user.getDataCriacao().format(formatter)).append("\n");
-
-            lista.append("Data Atualização: ");
-            if (user.getDataAlteracao() != null) { //verifica se a data é null, para evitar nullpointer
-                lista.append(user.getDataAlteracao().format(formatter));
-            } else {
-                lista.append("N/A");
+            if (usuarios == null || usuarios.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum usuário encontrado.");
+                return;
             }
-            lista.append("\n");
-            lista.append("-------------------------\n");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            StringBuilder lista = new StringBuilder();
+
+            for (User user : usuarios) {
+                lista.append("ID: ").append(user.getIdUser()).append("\n");
+                lista.append("Nome: ").append(user.getNome()).append("\n");
+                lista.append("CPF: ").append(user.getCpf()).append("\n");
+                lista.append("Situação: ").append(user.getSituacaoUsuario()).append("\n");
+                lista.append("Data Criação: ").append(user.getDataCriacao().format(formatter)).append("\n");
+
+                lista.append("Data Atualização: ");
+                if (user.getDataAlteracao() != null) { //verifica se a data é null, para evitar nullpointer
+                    lista.append(user.getDataAlteracao().format(formatter));
+                } else {
+                    lista.append("N/A");
+                }
+                lista.append("\n");
+                lista.append("-------------------------\n");
+            }
+
+            JTextArea textArea = new JTextArea(lista.toString());
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(400, 300));
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        JTextArea textArea = new JTextArea(lista.toString());
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
-
-        JOptionPane.showMessageDialog(null, scrollPane, "Lista de Usuários", JOptionPane.INFORMATION_MESSAGE);
     }
 }
