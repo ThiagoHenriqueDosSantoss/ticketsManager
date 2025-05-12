@@ -45,9 +45,10 @@ O sistema permite ao usuário visualizar o total de tickets entregues no geral e
 ##### Passos:
 1. No **pgAdmin**, expanda **Login/Group Roles**.
 2. Clique com o botão direito e selecione **Create > Login/Group Role**.
-3. Defina o **Role Name** como `admin` e a **Password** como `admin`.
-4. Marque a opção **Can login?** para permitir login.
-5. Clique em **Save** para criar o usuário.
+3. Na aba **General**, defina o **Role Name** como `admin`.
+4. Na aba **Definition**, defina a **Password** como `admin`.
+5. Na aba **Privileges**, marque todas as opções, como `Can login`, `Create DB`, `Create Role`, `Superuser` (se desejar permissões totais).
+6. Clique em **Save** para criar o usuário.
 
 #### 3. **Conceder Acesso ao Banco de Dados (Caso ja use o banco com outras credências)**
 
