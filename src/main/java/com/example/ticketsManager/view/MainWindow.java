@@ -30,7 +30,8 @@ public class MainWindow extends JFrame {
         this.userController = userController;
         this.ticketController = ticketController;
 
-        ImageIcon iconeTicketManager = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-manager.png");
+        ImageIcon iconeTicketManager = new ImageIcon(getClass().getResource("/images/ticket-manager.png"));
+
 
         // Configurações da janela principal
         setTitle("Tickets Manager");
@@ -51,10 +52,10 @@ public class MainWindow extends JFrame {
         painelBotoes.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Ícones
-        ImageIcon iconeUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user.png");
-        ImageIcon iconeTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket.png");
-        ImageIcon iconeRelatorio = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\report.png");
-        ImageIcon iconePorta = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\door.png");
+        ImageIcon iconeUser = new ImageIcon(getClass().getResource("/images/user.png"));
+        ImageIcon iconeTicket = new ImageIcon(getClass().getResource("/images/ticket.png"));
+        ImageIcon iconeRelatorio = new ImageIcon(getClass().getResource("/images/report.png"));
+        ImageIcon iconePorta = new ImageIcon(getClass().getResource("/images/door.png"));
 
         // Botões
         JButton jbUser = new JButton("USUÁRIOS", iconeUser);
@@ -69,7 +70,7 @@ public class MainWindow extends JFrame {
             botao.setMaximumSize(new Dimension(200, 100));
             botao.setMinimumSize(new Dimension(100, 100));
 
-            botao.setFont(new Font("Arial", Font.BOLD, 14));
+            botao.setFont(new Font("Arial", Font.BOLD, 12));
             botao.setFocusPainted(false);
             botao.setBackground(new Color(249, 249, 249));
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));

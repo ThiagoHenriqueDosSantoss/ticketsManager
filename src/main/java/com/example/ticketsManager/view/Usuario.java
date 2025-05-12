@@ -19,7 +19,7 @@ public class Usuario extends JFrame {
 
     public Usuario(MainWindow mainWindow, UserController userController, TicketController ticketController){
         this.userController = userController;
-        ImageIcon iconeTicketManager = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-manager.png");
+        ImageIcon iconeTicketManager = new ImageIcon(getClass().getResource("/images/ticket-manager.png"));
 
         // Configurações da janela principal
         setTitle("Tickets Manager");
@@ -41,16 +41,16 @@ public class Usuario extends JFrame {
         painelBotoes.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Ícones
-        ImageIcon iconeAddUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-add.png");
-        ImageIcon iconeEditUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-edit.png");
-        ImageIcon iconeListUser = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\user-list.png");
-        ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
+        ImageIcon iconeAddUser = new ImageIcon(getClass().getResource("/images/user-add.png"));
+        ImageIcon iconeEditUser = new ImageIcon(getClass().getResource("/images/user-edit.png"));
+        ImageIcon iconeListUser = new ImageIcon(getClass().getResource("/images/user-list.png"));
+        ImageIcon iconeVoltar = new ImageIcon(getClass().getResource("/images/back.png"));
 
         // Botões
-        JButton jbCriarUsuarios = new JButton(iconeAddUser);
-        JButton jbEditarUsuario = new JButton(iconeEditUser);
-        JButton jbListarUsuario = new JButton(iconeListUser);
-        JButton jbVoltar = new JButton(iconeVoltar);
+        JButton jbCriarUsuarios = new JButton("Cadastrar Usuário",iconeAddUser);
+        JButton jbEditarUsuario = new JButton("Editar Usuário",iconeEditUser);
+        JButton jbListarUsuario = new JButton("Listar Usuários",iconeListUser);
+        JButton jbVoltar = new JButton("Voltar",iconeVoltar);
 
         JButton[] botoes = {jbCriarUsuarios, jbEditarUsuario, jbListarUsuario, jbVoltar};
 
@@ -59,7 +59,7 @@ public class Usuario extends JFrame {
             botao.setMaximumSize(new Dimension(200, 100));
             botao.setMinimumSize(new Dimension(100, 100));
 
-            botao.setFont(new Font("Arial", Font.BOLD, 16));
+            botao.setFont(new Font("Arial", Font.BOLD, 12));
             botao.setFocusPainted(false);
             botao.setBackground(new Color(249, 249, 249));
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));

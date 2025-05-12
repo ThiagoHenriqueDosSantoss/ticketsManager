@@ -20,7 +20,7 @@ public class Ticket extends JFrame {
 
         this.userController = new UserController();
         this.ticketController = ticketController;
-        ImageIcon iconeTicketManager = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-manager.png");
+        ImageIcon iconeTicketManager = new ImageIcon(getClass().getResource("/images/ticket-manager.png"));
 
         // Configurações da janela principal
         setTitle("Tickets Manager");
@@ -41,16 +41,16 @@ public class Ticket extends JFrame {
         painelBotoes.setBackground(Color.LIGHT_GRAY);
         painelBotoes.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ImageIcon iconeAddTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\add-ticket.png");
-        ImageIcon iconeEditTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\edit-ticket.png");
-        ImageIcon iconeListTicket = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\ticket-list.png");
-        ImageIcon iconeVoltar = new ImageIcon("C:\\Users\\th650\\IdeaProjects\\ticketsManager\\src\\main\\java\\com\\example\\ticketsManager\\view\\resources\\back.png");
+        ImageIcon iconeAddTicket = new ImageIcon(getClass().getResource("/images/add-ticket.png"));
+        ImageIcon iconeEditTicket = new ImageIcon(getClass().getResource("/images/edit-ticket.png"));
+        ImageIcon iconeListTicket = new ImageIcon(getClass().getResource("/images/ticket-list.png"));
+        ImageIcon iconeVoltar = new ImageIcon(getClass().getResource("/images/back.png"));
 
         // Características dos botões
-        JButton jbCriarTicket = new JButton(iconeAddTicket);
-        JButton jbEditarTicket = new JButton(iconeEditTicket);
-        JButton jbListarTicket = new JButton(iconeListTicket);
-        JButton jbVoltar = new JButton(iconeVoltar);
+        JButton jbCriarTicket = new JButton("Criar Ticket",iconeAddTicket);
+        JButton jbEditarTicket = new JButton("Editar Ticket",iconeEditTicket);
+        JButton jbListarTicket = new JButton("Listar Tickets",iconeListTicket);
+        JButton jbVoltar = new JButton("Voltar",iconeVoltar);
 
         // Adicionando os botões ao painel
         JButton[] botoes = {jbCriarTicket, jbEditarTicket,jbListarTicket,jbVoltar};
@@ -60,7 +60,7 @@ public class Ticket extends JFrame {
             botao.setMaximumSize(new Dimension(200, 100));
             botao.setMinimumSize(new Dimension(100, 100));
 
-            botao.setFont(new Font("Arial", Font.BOLD, 14));
+            botao.setFont(new Font("Arial", Font.BOLD, 12));
             botao.setFocusPainted(false);
             botao.setBackground(new Color(249, 249, 249));
             botao.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
