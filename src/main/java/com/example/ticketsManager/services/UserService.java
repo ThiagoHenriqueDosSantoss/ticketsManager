@@ -54,7 +54,7 @@ public class UserService {
                         JOptionPane.showMessageDialog(null,"O cpf informado é inválido!");
                         throw new BadRequestException("O cpf informado é inválido!");
                     } else {
-                        if (userRepository.validaCpf(dto.getCpf())) {
+                        if (userRepository.validateCpf(dto.getCpf())) {
                             JOptionPane.showMessageDialog(null,"O cpf informado já existe!");
                             throw new BadRequestException("O cpf informado já existe!");
                         } else {
@@ -116,7 +116,7 @@ public class UserService {
                         JOptionPane.showMessageDialog(null,"O CPF informado é inválido!");
                         throw new BadRequestException("O CPF informado é inválido!");
                     }else{
-                        if (userRepository.validaCpf(dto.getCpf())) {
+                        if (userRepository.validateCpf(dto.getCpf())) {
                             JOptionPane.showMessageDialog(null,"O CPF informado já existe!");
                             throw new BadRequestException("O CPF informado já existe!");
                         }else{
@@ -148,7 +148,7 @@ public class UserService {
     }
     public List<User> listUser(){
         try{
-            List<User> userList = userRepository.listarUsuarios();
+            List<User> userList = userRepository.listUsers();
             return userList;
         } catch (Exception e) {
             logger.severe("ERROR: Falha ao listar usuario no services!");

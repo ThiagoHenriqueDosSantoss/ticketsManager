@@ -49,7 +49,7 @@ public class TicketController {
     }
     public ResponseEntity<List<RelatorioTicketDTO>> gerarRelatorio(
             @RequestParam("dataFim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
-            List<RelatorioTicketDTO> relatorio = ticketService.gerarRelatorio(dataFim);
+            List<RelatorioTicketDTO> relatorio = ticketService.generateReport(dataFim);
         return ResponseEntity.ok(relatorio);
     }
     public List<Ticket> listTickets(){

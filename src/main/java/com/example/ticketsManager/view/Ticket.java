@@ -70,9 +70,9 @@ public class Ticket extends JFrame {
             painelBotoes.add(Box.createHorizontalStrut(15));
             painelBotoes.add(botao);
         }
-        jbCriarTicket.addActionListener(e -> criarTicket());
-        jbEditarTicket.addActionListener(e -> editarTicket());
-        jbListarTicket.addActionListener(e -> listarTickets());
+        jbCriarTicket.addActionListener(e -> createTicket());
+        jbEditarTicket.addActionListener(e -> uptadeTicket());
+        jbListarTicket.addActionListener(e -> listTicket());
         jbVoltar.addActionListener(e -> {new MainWindow(userController,ticketController);
             mainWindow.setVisible(true);
             this.setVisible(false);
@@ -86,7 +86,7 @@ public class Ticket extends JFrame {
         add(painel);
     }
 
-    public void criarTicket() {
+    public void createTicket() {
         try {
             String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário para o ticket:");
             if (idStr == null || !idStr.matches("\\d+")) {
@@ -118,7 +118,7 @@ public class Ticket extends JFrame {
         }
     }
 
-    public void editarTicket() {
+    public void uptadeTicket() {
         String idStr = JOptionPane.showInputDialog(null, "Informe o ID do ticket a editar:");
         if (idStr == null || !idStr.matches("\\d+")) {
             JOptionPane.showMessageDialog(null, "ID do ticket inválido!");
@@ -173,7 +173,7 @@ public class Ticket extends JFrame {
             e.printStackTrace();
         }
     }
-    public void listarTickets(){
+    public void listTicket(){
         List<com.example.ticketsManager.entities.Ticket> ticketList = ticketController.listTickets();
 
         if (ticketList == null || ticketList.isEmpty()){

@@ -16,5 +16,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "FROM tb_user u " +
             "LEFT JOIN tb_ticket t ON u.idUser = t.idUser AND t.dataEntregaTicket <= :dataFim " +
             "GROUP BY u.nome", nativeQuery = true)
-    List<Object[]> relatorioTicketsPorPeriodo(@Param("dataFim") LocalDateTime dataFim);
+    List<Object[]> ticketsByPeriodReport(@Param("dataFim") LocalDateTime dataFim);
 }

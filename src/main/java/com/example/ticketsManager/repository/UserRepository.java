@@ -12,8 +12,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u")
-    List<User> listarUsuarios();
+    List<User> listUsers();
 
     @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.cpf = :cpf")
-    boolean validaCpf(@Param("cpf") String cpf);
+    boolean validateCpf(@Param("cpf") String cpf);
 }

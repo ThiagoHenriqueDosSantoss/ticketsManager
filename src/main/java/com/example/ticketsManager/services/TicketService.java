@@ -123,8 +123,8 @@ public class TicketService {
 
     }
 
-    public List<RelatorioTicketDTO> gerarRelatorio(LocalDateTime dataFim) {
-        List<Object[]> resultado = ticketRepository.relatorioTicketsPorPeriodo(dataFim);
+    public List<RelatorioTicketDTO> generateReport(LocalDateTime dataFim) {
+        List<Object[]> resultado = ticketRepository.ticketsByPeriodReport(dataFim);
 
         return resultado.stream()
                 .map(linha -> new RelatorioTicketDTO(

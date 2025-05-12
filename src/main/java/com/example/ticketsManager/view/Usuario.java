@@ -71,10 +71,9 @@ public class Usuario extends JFrame {
         }
 
         // Ações dos botões
-        jbCriarUsuarios.addActionListener(e -> adicionarUsuário());
-        jbListarUsuario.addActionListener(e -> listarUsuario());
-        jbEditarUsuario.addActionListener(e -> editarUsuario());
-
+        jbCriarUsuarios.addActionListener(e -> createUser());
+        jbEditarUsuario.addActionListener(e -> updateUser());
+        jbListarUsuario.addActionListener(e -> listUser());
         jbVoltar.addActionListener(e -> {
             MainWindow mainWindow1 = new MainWindow(userController, ticketController);
             mainWindow1.setVisible(true);
@@ -91,7 +90,7 @@ public class Usuario extends JFrame {
         add(painel);
 
     }
-    public void adicionarUsuário() {
+    public void createUser() {
         // Criar o JFrame
         JFrame frame = new JFrame("Tickets Manager");
         frame.setSize(700, 500); // Tamanho fixo
@@ -177,7 +176,7 @@ public class Usuario extends JFrame {
         frame.add(painel);
         frame.setVisible(true);
     }
-    public void editarUsuario() {
+    public void updateUser() {
         String idStr = JOptionPane.showInputDialog(null, "Informe o ID do usuário a editar:");
         if (idStr == null || !idStr.matches("\\d+")) {
             JOptionPane.showMessageDialog(null, "ID inválido!");
@@ -222,7 +221,7 @@ public class Usuario extends JFrame {
 
         userController.updateUser(id,dto);
     }
-    public void listarUsuario() {
+    public void listUser() {
         List<User> usuarios = userController.listUser();
 
         if (usuarios == null || usuarios.isEmpty()) {

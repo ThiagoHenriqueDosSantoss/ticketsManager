@@ -86,7 +86,7 @@ public class MainWindow extends JFrame {
         painel.add(Box.createVerticalGlue());
 
         // Ações dos botões
-        jbRelatorio.addActionListener(e -> emitirRelatorio());
+        jbRelatorio.addActionListener(e -> generateReport());
 
         jbUser.addActionListener(e -> {
             Usuario usuario = new Usuario(this, userController, ticketController);
@@ -110,7 +110,7 @@ public class MainWindow extends JFrame {
         add(painel);
     }
 
-    public void emitirRelatorio() {
+    public void generateReport() {
         try {
             // Entrada da data
             String dataFimStr = JOptionPane.showInputDialog(null, "Informe a data de fim (yyyy-MM-dd):");
