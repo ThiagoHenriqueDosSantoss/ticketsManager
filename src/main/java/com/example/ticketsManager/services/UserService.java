@@ -126,14 +126,10 @@ public class UserService {
                 }
 
                 //Verifica a situação caso queira alterar
-                if (dto.getSituacaoUsuario() != null) {
+                if (dto.getSituacaoUsuario() == null) {
+                    dto.getSituacaoUsuario();
+                }else{
                     users.setSituacaoUsuario(dto.getSituacaoUsuario());
-                } else {
-                    if ("A".equals(dto.getSituacaoUsuario())) {
-                        users.setSituacaoUsuario("A");
-                    } else {
-                        users.setSituacaoUsuario("I");
-                    }
                 }
 
                 LocalDateTime now = LocalDateTime.now();
